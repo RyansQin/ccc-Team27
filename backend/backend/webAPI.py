@@ -22,7 +22,7 @@ def selectServer():
     return couchdb
 
 #For the given database, return all text of documents
-def getAllText(server, dbName):
+def getText(server, dbName):
     database = server.getDatabase(dbName)
     view = database.view('_all_docs', include_docs=True)
     text = []
@@ -45,22 +45,28 @@ def notFound(errorMessage):
 
 #- - - - - - - - - - - - - - - - - API for crawler- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Add a new doc to specific database
-@app.route('/spider/<db>', methods=['POST'])
-def addTwitter(db):
+# The http request contains a json object like {task:{task dictionary}}
+# In the task, there are following keys:
+# database: indicate the database that the data will be stored in
+# doc: a dictionary, contains data
+# Retrun a json object
+@app.route('/spider', methods=['POST'])
+def addTwitter():
     try:
         twitter = json.loads(request.data)
     except:
         return badRequest('Not a valid Json document')
     print(twitter)
     try:
+        dbName = twitter['database']
+        doc = twitter['doc']
         couchdb = selectServer()
-        database = couchdb.getDatabase(db)
+        database = couchdb.getDatabase(dbName)
     except:
         return notFound('Required database not found')
     try:
-        database.save(twitter)
-        return 'Complete, hello from' + couchdb.address
+        database.save(doc)
+        return jsonify({'database':dbName, 'Status': "completed"})
     except:
         return badRequest('Fail to add a new document')
 
@@ -72,7 +78,7 @@ def createDB(db):
     try:
         couchdb = selectServer()
         couchdb.create(db)
-        return 'Complete, hello from' + couchdb.address
+        return jsonify({'database': db, 'Status': "completed"})
     except:
         return badRequest('Fail to create the database')
 
@@ -139,7 +145,33 @@ def getView():
 
 #- - - - - - - - - - - - - -- - - - - - - -API for machine learning- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+# The http request contains a json object like {database:{database dictionary}}
+# In the task, there are following keys:
+# database: indicates which database we want to access
+# Retrun a json object
+@app.route('/cluster/text', methods=['POST'])
+def getAllText():
+    try:
+        data = json.loads(request.data)
+        database = []
+        for db in data['database']:
+            database.append(db)
+    except:
+        return badRequest('Invalid request')
 
+    try:
+        server = selectServer()
+        resp = {}
+        for db in database:
+            resp[db] = getText(server, db)
+        return jsonify(resp)
+    except:
+        return notFound('Some databases noy found')
+
+
+@app.route('/cluster/result', methods=['POST'])
+def updateResult():
+    return None
 
 
 
