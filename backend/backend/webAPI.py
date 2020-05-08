@@ -48,7 +48,7 @@ def notFound(errorMessage):
 # The http request contains a json object like {doc dictionary}}
 # doc: a dictionary, contains data
 # Retrun a json object
-@app.route('/spider/<db', methods=['POST'])
+@app.route('/spider/<db>', methods=['POST'])
 def addTwitter(db):
     try:
         doc = json.loads(request.data)

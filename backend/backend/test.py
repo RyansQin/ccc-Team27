@@ -25,5 +25,5 @@ def testAddTweet():
 
 
 
-testView()
+testAddTweet()
 
