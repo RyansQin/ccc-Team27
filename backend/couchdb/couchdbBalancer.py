@@ -1,5 +1,5 @@
 import couchdb
-import couchDbHandler
+import backend.couchdb.couchDbHandler
 
 
 class couchdbBalancer:

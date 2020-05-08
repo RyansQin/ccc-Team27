@@ -90,6 +90,7 @@ def getTotalRows(database):
 # Calculate the proportion of tweets that related to covid19 in specific location
 def calCovidRate(server, location):
     dbName = 'tweet_' + location
+    print(dbName)
     database = server.getDatabase(dbName)
     view = database.view('covid/covid')
     rate = {}
@@ -118,7 +119,7 @@ def getView(location):
     print('start')
     couchdb = selectServer()
     resp = {}
-    task = request.form['task']
+    task = json.loads(request.data)['task']
     location = task['location']
     covidRate = None
     lockdownRank = None
