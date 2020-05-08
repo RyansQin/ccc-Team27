@@ -112,7 +112,7 @@ def getLockdownRank(server, location):
 # location: indicate the location that need to be analyze
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
-# Response a json object
+# Retrun a json object
 @app.route('/view/<location>', methods=['POST'])
 def getView(location):
     print('start')
