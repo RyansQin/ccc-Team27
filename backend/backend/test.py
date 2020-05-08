@@ -12,7 +12,7 @@ import json
 
 def testView():
     url = 'http://localhost:5000/view/nsw'
-    payload = {'task': {'location': 'nsw', 'covid': True, 'lockdown': False}}
+    payload = {'task': {'covid': True, 'lockdown': False}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
 
