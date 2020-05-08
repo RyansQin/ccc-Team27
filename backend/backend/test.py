@@ -1,7 +1,7 @@
 import requests
 
 url = 'http://localhost:5000/view/nsw'
-payload = {'task':{'location':'nsw', 'covid':True, 'lockdown':False}}
+
 headers = {'content-type':'application/json'}
 
 import json
@@ -10,8 +10,20 @@ import json
 
 
 
-def sendRequest(twitter):
-    r = requests.post(url, data=json.dumps(twitter), headers=headers)
+def testView():
+    url = 'http://localhost:5000/view/nsw'
+    payload = {'task': {'location': 'nsw', 'covid': True, 'lockdown': False}}
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
 
-sendRequest(payload)
+def testAddTweet():
+    url = 'http://localhost:5000/spider/tweet_vic'
+    payload = {'content': 'This is a test tweet'}
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
+    print(r.json())
+
+
+
+
+testView()
+

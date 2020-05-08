@@ -45,28 +45,24 @@ def notFound(errorMessage):
 
 #- - - - - - - - - - - - - - - - - API for crawler- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# The http request contains a json object like {task:{task dictionary}}
-# In the task, there are following keys:
-# database: indicate the database that the data will be stored in
+# The http request contains a json object like {doc dictionary}}
 # doc: a dictionary, contains data
 # Retrun a json object
-@app.route('/spider', methods=['POST'])
-def addTwitter():
+@app.route('/spider/<db', methods=['POST'])
+def addTwitter(db):
     try:
-        twitter = json.loads(request.data)
+        doc = json.loads(request.data)
     except:
         return badRequest('Not a valid Json document')
-    print(twitter)
     try:
-        dbName = twitter['database']
-        doc = twitter['doc']
+
         couchdb = selectServer()
-        database = couchdb.getDatabase(dbName)
+        database = couchdb.getDatabase(db)
     except:
         return notFound('Required database not found')
     try:
         database.save(doc)
-        return jsonify({'database':dbName, 'Status': "completed"})
+        return jsonify({'database':db, 'Status': "completed"})
     except:
         return badRequest('Fail to add a new document')
 
@@ -116,17 +112,15 @@ def getLockdownRank(server, location):
 
 # The http request contains a json object like {task:{task dictionary}}
 # In the task, there are following keys:
-# location: indicate the location that need to be analyze
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
 # Retrun a json object
-@app.route('/view', methods=['POST'])
-def getView():
+@app.route('/view/<location>', methods=['POST'])
+def getView(location):
     print('start')
     couchdb = selectServer()
     resp = {}
     task = json.loads(request.data)['task']
-    location = task['location']
     covidRate = None
     lockdownRank = None
     if task['covid'] is True:
