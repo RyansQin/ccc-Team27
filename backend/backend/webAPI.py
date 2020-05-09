@@ -139,7 +139,7 @@ def getView(location):
 
 #- - - - - - - - - - - - - -- - - - - - - -API for machine learning- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# The http request contains a json object like {database:{database dictionary}}
+# The http request contains a json object like {database:database}
 # In the task, there are following keys:
 # database: indicates which database we want to access
 # Retrun a json object
@@ -147,20 +147,17 @@ def getView(location):
 def getAllText():
     try:
         data = json.loads(request.data)
-        database = []
-        for db in data['database']:
-            database.append(db)
+        database = data['database']
     except:
         return badRequest('Invalid request')
 
     try:
         server = selectServer()
         resp = {}
-        for db in database:
-            resp[db] = getText(server, db)
+        resp[database] = getText(server, database)
         return jsonify(resp)
     except:
-        return notFound('Some databases noy found')
+        return notFound('Some databases not found')
 
 
 @app.route('/cluster/result', methods=['POST'])
