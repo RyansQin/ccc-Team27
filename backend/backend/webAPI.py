@@ -32,11 +32,11 @@ def getText(server, dbName):
 
 @app.errorhandler(400)
 def badRequest(errorMessage):
-    return make_response(jsonify({errorMessage:'Bad request'}), 400)
+    return make_response(jsonify({'errorMessage':'Bad request'}), 400)
 
 @app.errorhandler(404)
 def notFound(errorMessage):
-    return make_response(jsonify({errorMessage: 'Not found'}), 404)
+    return make_response(jsonify({'errorMessage': 'Not found'}), 404)
 
 
 
@@ -163,7 +163,6 @@ def getAllText():
 @app.route('/cluster/result', methods=['POST'])
 def updateResult():
     return None
-
 
 
 if __name__ == '__main__':
