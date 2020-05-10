@@ -115,14 +115,15 @@ def getLockdownRank(server, location):
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
 # Retrun a json object
-@app.route('/view/<location>', methods=['POST'])
-def getView(location):
+@app.route('/view', methods=['POST'])
+def getView():
     print('start')
     couchdb = selectServer()
     resp = {}
     task = json.loads(request.data)['task']
     covidRate = None
     lockdownRank = None
+    location = task['location']
     if task['covid'] is True:
         covidRate = calCovidRate(couchdb, location)
     if task['lockdown'] is True:
