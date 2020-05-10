@@ -7,7 +7,17 @@ headers = {'content-type':'application/json'}
 import json
 
 
+def error404test():
+    url = 'http://localhost:5000/errortest'
+    payload = {'test': 'errortest'}
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
+    print(r.json())
 
+def error400test():
+    url = 'http://localhost:5000/spider/test'
+    payload = {'test': 'errortest'}
+    r = requests.post(url, data=json.dumps(payload), headers=headers)
+    print(r.json())
 
 
 def testView():
@@ -31,5 +41,4 @@ def testFetchText():
     print(data)
 
 
-testFetchText()
-
+error400test()
