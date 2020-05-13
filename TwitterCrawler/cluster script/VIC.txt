@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+via amp us death enjoy 
+probability: 	 [0.0855057  0.07267095 0.07164947 0.05261861 0.04869268]
+Topic 1: 	
+word: 	
+work say thing back need 
+probability: 	 [0.07283363 0.05866899 0.05627465 0.04260917 0.03979879]
+Topic 2: 	
+word: 	
+help end watch state today 
+probability: 	 [0.0953462  0.09513398 0.08917915 0.0651531  0.06036174]
+Topic 3: 	
+word: 	
+much stop 2 far support 
+probability: 	 [0.05236567 0.05138823 0.04639195 0.04620603 0.04286804]
+Topic 4: 	
+word: 	
+know come look keep let 
+probability: 	 [0.07889768 0.05664576 0.05566138 0.0485811  0.04570124]
+Topic 5: 	
+word: 	
+australia new good hope week 
+probability: 	 [0.07505117 0.06198845 0.04706586 0.03657152 0.03592988]
+Topic 6: 	
+word: 	
+melbourn read right well pandem 
+probability: 	 [0.06431866 0.06082138 0.05302959 0.05208996 0.04507046]
+Topic 7: 	
+word: 	
+year want book use health 
+probability: 	 [0.07944353 0.06220155 0.05786926 0.05727775 0.05062059]
+Topic 8: 	
+word: 	
+restrict think got eas dan 
+probability: 	 [0.11701813 0.09458142 0.07244059 0.06538492 0.05540413]
+Topic 9: 	
+word: 	
+covid 19 coronaviru first ll 
+probability: 	 [0.11334784 0.09061066 0.08506795 0.07079545 0.05600253]

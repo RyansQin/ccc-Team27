@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+first need govern make use 
+probability: 	 [0.06037001 0.05682961 0.04301817 0.0427787  0.04268735]
+Topic 1: 	
+word: 	
+coronaviru work restrict social distanc 
+probability: 	 [0.08435217 0.07258145 0.05777599 0.04755383 0.04501794]
+Topic 2: 	
+word: 	
+look isol life school way 
+probability: 	 [0.0611172  0.05151069 0.0432252  0.04159935 0.03893378]
+Topic 3: 	
+word: 	
+thing end kid say famili 
+probability: 	 [0.07730043 0.07326961 0.06862374 0.06607357 0.04836762]
+Topic 4: 	
+word: 	
+know world also yet bit 
+probability: 	 [0.10923582 0.09751543 0.05330651 0.04243873 0.03929839]
+Topic 5: 	
+word: 	
+new week pandem case citi 
+probability: 	 [0.07526028 0.06012422 0.05208222 0.0379769  0.0359645 ]
+Topic 6: 	
+word: 	
+australia keep back state better 
+probability: 	 [0.08130872 0.07689997 0.06354003 0.05402519 0.04993697]
+Topic 7: 	
+word: 	
+amp well music got law 
+probability: 	 [0.09714396 0.05431178 0.03998543 0.03758629 0.03203025]
+Topic 8: 	
+word: 	
+think good take today news 
+probability: 	 [0.08545666 0.07619954 0.06545547 0.06121811 0.04276618]
+Topic 9: 	
+word: 	
+covid us viru 19 see 
+probability: 	 [0.06379443 0.05412411 0.04423312 0.0430968  0.04105685]

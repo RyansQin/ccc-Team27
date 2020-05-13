@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+right citi far hit check 
+probability: 	 [0.07772402 0.04677726 0.03887701 0.03563167 0.03557936]
+Topic 1: 	
+word: 	
+uk thing nz sinc safe 
+probability: 	 [0.09686603 0.05132975 0.04112886 0.03879184 0.03239696]
+Topic 2: 	
+word: 	
+never learn us 2 infect 
+probability: 	 [0.08974885 0.03094395 0.03075727 0.02809944 0.02728878]
+Topic 3: 	
+word: 	
+new australia work coronaviru want 
+probability: 	 [0.06019192 0.05721875 0.05044027 0.0472144  0.0406004 ]
+Topic 4: 	
+word: 	
+news show stop eas must 
+probability: 	 [0.05049992 0.04468504 0.03930854 0.03772847 0.03758221]
+Topic 5: 	
+word: 	
+order via visit say need 
+probability: 	 [0.07670093 0.060875   0.05805288 0.04571194 0.03991417]
+Topic 6: 	
+word: 	
+know risk call tip covid19 
+probability: 	 [0.058066   0.0436182  0.03805552 0.03696337 0.03672758]
+Topic 7: 	
+word: 	
+live week restrict made social 
+probability: 	 [0.08253574 0.06338603 0.05484179 0.05414651 0.02650844]
+Topic 8: 	
+word: 	
+see covid case love better 
+probability: 	 [0.16106376 0.07874998 0.06882349 0.04686072 0.03615278]
+Topic 9: 	
+word: 	
+amp canberra well 1 much 
+probability: 	 [0.13584189 0.08857474 0.03080089 0.03073792 0.02939968]

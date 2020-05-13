@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+lesson learn 3 photographi also 
+probability: 	 [0.03903579 0.03903579 0.03259804 0.03259804 0.03109443]
+Topic 1: 	
+word: 	
+present thing restrict pm month 
+probability: 	 [0.03665549 0.03057821 0.02874883 0.028458   0.0276478 ]
+Topic 2: 	
+word: 	
+kidnap medit goanna diari luck 
+probability: 	 [0.03581425 0.02685468 0.02542823 0.02542823 0.02331725]
+Topic 3: 	
+word: 	
+look forward ps interview brilliant 
+probability: 	 [0.0289301  0.02006018 0.02006018 0.02006018 0.02006018]
+Topic 4: 	
+word: 	
+cibai wait sial hope safe 
+probability: 	 [0.04619234 0.04619234 0.04619234 0.04521569 0.04521569]
+Topic 5: 	
+word: 	
+lift 19 covid germani infect 
+probability: 	 [0.02054498 0.02054498 0.02054498 0.02054498 0.02054498]
+Topic 6: 	
+word: 	
+aliv busi famili media sinc 
+probability: 	 [0.02268812 0.02008183 0.01893154 0.01774854 0.01712195]
+Topic 7: 	
+word: 	
+today policestateuk london coronaviru never 
+probability: 	 [0.0402721  0.0402721  0.0402721  0.02967476 0.02957021]
+Topic 8: 	
+word: 	
+believ teeth white neighbor door 
+probability: 	 [0.02361783 0.02157875 0.02157875 0.02135449 0.02135449]
+Topic 9: 	
+word: 	
+fish golf irrelev live politician 
+probability: 	 [0.03667356 0.03667356 0.03667356 0.03667356 0.03667356]
