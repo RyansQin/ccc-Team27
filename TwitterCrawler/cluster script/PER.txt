@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+school ll seem rule care 
+probability: 	 [0.04353932 0.04065211 0.03734383 0.03485492 0.03460399]
+Topic 1: 	
+word: 	
+take mani say state keep 
+probability: 	 [0.05980648 0.05028156 0.04915465 0.04839475 0.04473942]
+Topic 2: 	
+word: 	
+new come life littl play 
+probability: 	 [0.07326333 0.07091928 0.07055867 0.05681184 0.0495018 ]
+Topic 3: 	
+word: 	
+via lift coronaviru f long 
+probability: 	 [0.13852136 0.06096661 0.04643464 0.04130515 0.03797387]
+Topic 4: 	
+word: 	
+first well old isol pretti 
+probability: 	 [0.06944641 0.06675617 0.05568295 0.05515232 0.0536572 ]
+Topic 5: 	
+word: 	
+love covid 19 anoth countri 
+probability: 	 [0.07190078 0.06423517 0.05637978 0.05153222 0.0508106 ]
+Topic 6: 	
+word: 	
+want know live death wonder 
+probability: 	 [0.08400427 0.0589945  0.05625375 0.04519499 0.04413464]
+Topic 7: 	
+word: 	
+perth us think let 2 
+probability: 	 [0.08497161 0.0813155  0.06648102 0.05889828 0.05660398]
+Topic 8: 	
+word: 	
+look week see work australia 
+probability: 	 [0.04826206 0.0478457  0.0474651  0.04501656 0.04362005]
+Topic 9: 	
+word: 	
+need world back thing viru 
+probability: 	 [0.06560812 0.05693737 0.05326224 0.04940489 0.0434612 ]

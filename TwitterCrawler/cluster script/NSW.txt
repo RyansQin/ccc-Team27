@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+work let best new eas 
+probability: 	 [0.12116779 0.07596128 0.07449681 0.04872019 0.04335698]
+Topic 1: 	
+word: 	
+end keep ll friend made 
+probability: 	 [0.05839233 0.04708501 0.04559835 0.04163087 0.03970547]
+Topic 2: 	
+word: 	
+coronaviru sydney look great us 
+probability: 	 [0.07728502 0.06152511 0.05615572 0.05369944 0.05096363]
+Topic 3: 	
+word: 	
+love world thank hope post 
+probability: 	 [0.07094903 0.06388377 0.04888609 0.04830664 0.04587901]
+Topic 4: 	
+word: 	
+much life help isol lot 
+probability: 	 [0.08378373 0.07777479 0.05465836 0.05434456 0.05119403]
+Topic 5: 	
+word: 	
+month famili hous need seem 
+probability: 	 [0.06765617 0.06397144 0.0626239  0.05963352 0.05889873]
+Topic 6: 	
+word: 	
+make good first year listen 
+probability: 	 [0.12052513 0.08013878 0.07058698 0.06573685 0.05223887]
+Topic 7: 	
+word: 	
+thing australia use know want 
+probability: 	 [0.08623508 0.0776076  0.06209501 0.05429515 0.05032804]
+Topic 8: 	
+word: 	
+india amp take covid via 
+probability: 	 [0.09640432 0.03972327 0.03769338 0.03539538 0.03342212]
+Topic 9: 	
+word: 	
+see govern week live australian 
+probability: 	 [0.07613982 0.05617493 0.0485545  0.0477524  0.04183361]

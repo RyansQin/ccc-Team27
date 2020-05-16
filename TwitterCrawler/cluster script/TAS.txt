@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+live eas coupl won post 
+probability: 	 [0.05346374 0.0527951  0.04804419 0.04583191 0.04130212]
+Topic 1: 	
+word: 	
+lp think know run 4 
+probability: 	 [0.10219947 0.04271184 0.03926203 0.03824591 0.03434262]
+Topic 2: 	
+word: 	
+coronaviru 2 curv four bake 
+probability: 	 [0.05782148 0.0357354  0.03122553 0.02940603 0.02517322]
+Topic 3: 	
+word: 	
+nice us nh singl similar 
+probability: 	 [0.03701542 0.03501201 0.03027158 0.02969451 0.02946817]
+Topic 4: 	
+word: 	
+night work mention didn figur 
+probability: 	 [0.04883717 0.04367104 0.04127223 0.03517482 0.03239832]
+Topic 5: 	
+word: 	
+first scotland take thing big 
+probability: 	 [0.05501954 0.03577329 0.03140604 0.03055476 0.02770076]
+Topic 6: 	
+word: 	
+happi lift total believ agre 
+probability: 	 [0.06211912 0.0541628  0.04541241 0.04128339 0.03274217]
+Topic 7: 	
+word: 	
+thought friend well hope differ 
+probability: 	 [0.0521165  0.04989608 0.04903536 0.0351425  0.03066617]
+Topic 8: 	
+word: 	
+say make stop morn alway 
+probability: 	 [0.0466249  0.03954835 0.03464234 0.03354625 0.0328369 ]
+Topic 9: 	
+word: 	
+end see come need right 
+probability: 	 [0.07096549 0.07087704 0.06240917 0.05311561 0.03305431]

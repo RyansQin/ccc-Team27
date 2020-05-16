@@ -1,0 +1,40 @@
+Topic 0: 	
+word: 	
+make say hard citi great 
+probability: 	 [0.04893775 0.04492787 0.0397817  0.0350066  0.02984661]
+Topic 1: 	
+word: 	
+coronaviru first work today look 
+probability: 	 [0.06042997 0.05497371 0.05030257 0.04896863 0.04576137]
+Topic 2: 	
+word: 	
+thank want end free know 
+probability: 	 [0.05530238 0.05203858 0.04612779 0.04606126 0.03904429]
+Topic 3: 	
+word: 	
+let australian everi far place 
+probability: 	 [0.09450775 0.06805945 0.04985768 0.04709217 0.04270871]
+Topic 4: 	
+word: 	
+covid19 never week 0 3 
+probability: 	 [0.06160374 0.06018981 0.05944752 0.05266066 0.04820598]
+Topic 5: 	
+word: 	
+case new adelaid australia south 
+probability: 	 [0.11908904 0.09741736 0.08636404 0.07208399 0.06000545]
+Topic 6: 	
+word: 	
+covid 19 hope mani busi 
+probability: 	 [0.0980949  0.08664554 0.07588961 0.05658415 0.04736121]
+Topic 7: 	
+word: 	
+need live see mean death 
+probability: 	 [0.1032466  0.08465926 0.07934517 0.05578484 0.05541731]
+Topic 8: 	
+word: 	
+back restrict eas care point 
+probability: 	 [0.06933974 0.06927346 0.0469133  0.04166434 0.0339623 ]
+Topic 9: 	
+word: 	
+think state us come well 
+probability: 	 [0.07125511 0.07056708 0.05648828 0.04974835 0.04548539]
