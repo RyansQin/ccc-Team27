@@ -27,13 +27,13 @@ def testView():
     print(r.json())
 
 def testAddTweet():
-    url = 'http://172.26.128.171:8080/spider/test'
+    url = 'http://localhost:5000/spider/test'
     payload = {'content': 'This is a test tweet'}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
 
 def testFetchText():
-    url = 'http://172.26.128.171:8080/cluster/text'
+    url = 'http://localhost:5000/cluster/text'
     payload= {'database': 'lockdown_ade'}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
@@ -41,7 +41,7 @@ def testFetchText():
     print(data)
 
 def testCreateDatabase():
-    url = 'http://localhost:5000/spider/test1'
+    url = 'http://localhost:5000/spider/test3'
     r = requests.get(url, headers=headers)
     print(r.json())
 
