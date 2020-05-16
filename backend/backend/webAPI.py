@@ -1,8 +1,7 @@
 from flask import Flask, jsonify, make_response
 from flask import request
-import backend.couchdb.couchdbBalancer as ba
-import backend.couchdb.couchDbHandler as ha
-import requests
+import backend.backend.couchdbBalancer as ba
+import backend.backend.couchDbHandler as ha
 import json
 
 app = Flask(__name__)
@@ -32,11 +31,11 @@ def getText(server, dbName):
 
 @app.errorhandler(400)
 def badRequest(errorMessage):
-    return make_response(jsonify({'errorMessage':'Bad request'}), 400)
+    return make_response(jsonify({errorMessage:'Bad request'}), 400)
 
 @app.errorhandler(404)
 def notFound(errorMessage):
-    return make_response(jsonify({'errorMessage': 'Not found'}), 404)
+    return make_response(jsonify({errorMessage: 'Not found'}), 404)
 
 
 

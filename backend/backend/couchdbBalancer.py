@@ -1,7 +1,3 @@
-import couchdb
-import backend.couchdb.couchDbHandler
-
-
 class couchdbBalancer:
     serversFreq = None
     admin =None
