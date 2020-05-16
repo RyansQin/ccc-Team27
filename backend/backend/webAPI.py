@@ -72,7 +72,7 @@ def addTwitter(db):
 def createDB(db):
     try:
         couchdb = selectServer()
-        couchdb.create(db)
+        couchdb.couchdbServer.create(db)
         return jsonify({'database': db, 'Status': "completed"})
     except:
         return badRequest('Fail to create the database')
