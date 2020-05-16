@@ -21,8 +21,8 @@ def error400test():
 
 
 def testView():
-    url = 'http://localhost:5000/view/nsw'
-    payload = {'task': {'covid': True, 'lockdown': False}}
+    url = 'http://172.26.131.203:8000/view'
+    payload = {'task': {'location': 'nsw', 'covid': True, 'lockdown': False}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
 
@@ -33,7 +33,7 @@ def testAddTweet():
     print(r.json())
 
 def testFetchText():
-    url = 'http://localhost:5000/cluster/text'
+    url = 'http://172.26.131.203:8000/cluster/text'
     payload= {'database': 'lockdown_ade'}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
@@ -41,9 +41,9 @@ def testFetchText():
     print(data)
 
 def testCreateDatabase():
-    url = 'http://localhost:5000/spider/test3'
+    url = 'http://172.26.131.203:8000/spider/test3'
     r = requests.get(url, headers=headers)
     print(r.json())
 
 
-testCreateDatabase()
+testView()
