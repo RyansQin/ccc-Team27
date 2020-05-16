@@ -29,6 +29,15 @@ def getText(server, dbName):
         text.append(item['doc']['text'])
     return text
 
+# Update specific document in the given database
+def updateDoc(server, dbName, docID, content):
+    database = server.getDatabase(dbName)
+    doc = database.get(docID)
+    for conKey in content:
+        doc[conKey] = content[conKey]
+    database.save(doc)
+
+
 @app.errorhandler(400)
 def badRequest(errorMessage):
     return make_response(jsonify({errorMessage:'Bad request'}), 400)
@@ -36,6 +45,8 @@ def badRequest(errorMessage):
 @app.errorhandler(404)
 def notFound(errorMessage):
     return make_response(jsonify({errorMessage: 'Not found'}), 404)
+
+
 
 
 
@@ -105,7 +116,11 @@ def calCovidRate(server, location):
 
 # For the given location, return the most popular activities during lockdown
 def getLockdownRank(server, location):
-    return None
+    dbName = 'test_res'
+    docID = 'lockdown_'+location
+    database = server.getDatabase(dbName)
+    doc = database.get(docID)
+    return doc['result']
 
 
 
@@ -161,9 +176,27 @@ def getAllText():
         return notFound('Some databases not found')
 
 
-@app.route('/cluster/result', methods=['POST'])
+# Update the result on the couchdb
+# The data field of the http request contains a dictionary. including the following key
+# database: specify the database that needs to be updated
+# docID: specify the document that needs to be updated
+# content: a dictionary, specify the key and value that need to be updated
+@app.route('/cluster/update', methods=['POST'])
 def updateResult():
-    return None
+    try:
+        data = json.loads(request.data)
+        dbName = data['database']
+        docID = data['docID']
+        content = data['content']
+    except:
+        return badRequest('Invalid update request')
+
+    try:
+        server = selectServer()
+        updateDoc(server, dbName, docID, content)
+    except:
+        return notFound('Database is unavailable or not exist, fail to update the document')
+    return jsonify({'status': 'complete update'})
 
 
 if __name__ == '__main__':
