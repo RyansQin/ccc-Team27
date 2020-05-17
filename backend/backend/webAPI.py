@@ -128,7 +128,7 @@ def getLockdownRank(server, location):
 
 # The http request contains a json object like {task:{task dictionary}}
 # In the task, there are following keys:
-#location: the location that we want to explore
+#location: the location that we want to explore, including nsw, ade, vic, nor, per, tas, que, can
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
 # Retrun a json object
