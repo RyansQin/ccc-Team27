@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, make_response
 from flask import request
-import backend.backend.couchdbBalancer as ba
-import backend.backend.couchDbHandler as ha
+import couchdbBalancer as ba
+import couchDbHandler as ha
 import json
 
 app = Flask(__name__)
@@ -40,11 +40,13 @@ def updateDoc(server, dbName, docID, content):
 
 @app.errorhandler(400)
 def badRequest(errorMessage):
-    return make_response(jsonify({errorMessage:'Bad request'}), 400)
+    errorMessage = str(errorMessage)
+    return make_response({errorMessage:'Bad request'}, 400)
 
 @app.errorhandler(404)
 def notFound(errorMessage):
-    return make_response(jsonify({errorMessage: 'Not found'}), 404)
+    errorMessage = str(errorMessage)
+    return make_response({errorMessage: 'Not found'}, 404)
 
 
 
@@ -200,4 +202,4 @@ def updateResult():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0')
