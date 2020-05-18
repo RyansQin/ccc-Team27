@@ -125,12 +125,33 @@ def getLockdownRank(server, location):
     return doc['result']
 
 
+#
+def getCurve(server, location):
+    dbName = 'tweet_'+location
+    database = server.getDatabase(dbName)
+    view1 = database.view('covid/time', group=True)
+    view2 = database.view('covid/covid_time', group=True)
+    res = {}
+    total = {}
+    covid = {}
+    for item in view1:
+        total[item.key] = item.value
+    for item in view2:
+        covid[item.key] = item.value
+    for key in total:
+        if key not in covid:
+            covid[key] = 0
+    res['total'] = total
+    res['covid'] = covid
+    return res
+
 
 # The http request contains a json object like {task:{task dictionary}}
 # In the task, there are following keys:
 #location: the location that we want to explore, including nsw, ade, vic, nor, per, tas, que, can
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
+# Curve: True/False, indicate whether it needs to calculate the curve
 # Retrun a json object
 @app.route('/view', methods=['POST'])
 def getView():
@@ -140,14 +161,20 @@ def getView():
     task = json.loads(request.data)['task']
     covidRate = None
     lockdownRank = None
+    curve = None
     location = task['location']
     if task['covid'] is True:
         covidRate = calCovidRate(couchdb, location)
     if task['lockdown'] is True:
         lockdownRank = getLockdownRank(couchdb, location)
+    if task['curve'] is True:
+        curve = getCurve(couchdb, location)
     resp['covidRate'] = covidRate
     resp['lockdownRank'] = lockdownRank
+    resp['curve'] = curve
     return jsonify(resp)
+
+
 
 
 #- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - -
