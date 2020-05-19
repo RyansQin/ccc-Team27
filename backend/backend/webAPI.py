@@ -57,13 +57,18 @@ def notFound(errorMessage):
 
 #- - - - - - - - - - - - - - - - - API for crawler- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# The http request contains a json object like {doc dictionary}}
+# The http request contains a json object like {'databased: db, 'doc':{doc dictionary}, 'docID': None/ID}
+# db: The database that need to be accessed
 # doc: a dictionary, contains data
+# docID: if the docID is None, use ramdon ID
 # Retrun a json object
-@app.route('/spider/<db>', methods=['POST'])
-def addTwitter(db):
+@app.route('/spider', methods=['POST'])
+def addTwitter():
     try:
-        doc = json.loads(request.data)
+        data = json.loads(request.data)
+        db = data['database']
+        doc = data['doc']
+        docID = data['docID']
     except:
         return badRequest('Not a valid Json document')
     try:
@@ -73,7 +78,10 @@ def addTwitter(db):
     except:
         return notFound('Required database not found')
     try:
-        database.save(doc)
+        if docID is None:
+            database.save(doc)
+        else:
+            database[docID] = doc
         return jsonify({'database':db, 'Status': "completed"})
     except:
         return badRequest('Fail to add a new document')
@@ -177,8 +185,43 @@ def getView():
 
 
 
-#- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - -
+#- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - #
+# Deal with the request of aurin data
+# The http request contains following keys
+# task: a list that the data we want to access, ['age_distribution', 'population_density', 'tourism']
+# location: the location we want to search, ['can', 'nsw', 'vic', 'ade', 'que', 'per', 'nor', 'tas']
+# For each task, returns a dictionary that contains data of the given location
+@app.route('/aurin', methods=['POST'])
+def getAurinData():
+    mapLocation = {}
+    mapLocation['can'] = 'act'
+    mapLocation['nor'] = 'nt'
+    mapLocation['nsw'] = 'nsw'
+    mapLocation['per'] = 'wa'
+    mapLocation['ade'] = 'sa'
+    mapLocation['tas'] = 'tas'
+    mapLocation['vic'] = 'vic'
+    mapLocation['que'] = 'qld'
+    try:
+        data = json.loads(request.data)
+        task = data['task']
+        location = data['location']
 
+    except:
+        return badRequest('Invalid request of aurin data')
+    try:
+        server = selectServer()
+        database = server.getDatabase('aurin_data')
+        resp = {}
+        for t in task:
+            doc = database.get(t)
+            temp = {}
+            for loc in location:
+                temp[loc] = doc[mapLocation[loc]]
+            resp[t] = temp
+        return jsonify(resp)
+    except:
+        return notFound('Aurin data not found')
 
 
 
