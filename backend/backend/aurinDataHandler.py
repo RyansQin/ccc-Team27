@@ -39,8 +39,25 @@ for rt in res:
         if key is not 'tot_pop_denom':
             r[key] = 100*r[key]/r['tot_pop_denom']
     res[rt] = r
-print (res)
-t.testAddTweet('aurin_data', res, "age_distribution")
+keySet = []
+valueSet = []
+locRes = []
+finalRes = {}
+for rt in res:
+    locRes = []
+    keySet = []
+    valueSet = []
+    locRes.append(rt)
+    r = res[rt]
+    for key in r:
+        keySet.append(key)
+        valueSet.append(r[key])
+    locRes.append(keySet)
+    locRes.append(valueSet)
+    finalRes[rt] = locRes
+
+print (finalRes)
+t.testAddTweet('aurin_data', finalRes, "age_distribution")
 
 #- - - - - - - - - - - -- - Handler for Tourism - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - - #
 

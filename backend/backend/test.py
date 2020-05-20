@@ -59,6 +59,6 @@ def testGetAurindata():
     data = r.json()
     print(data)
 
-
+#
 testGetAurindata()
 # testView()
