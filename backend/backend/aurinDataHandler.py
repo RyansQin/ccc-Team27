@@ -50,7 +50,10 @@ for rt in res:
     locRes.append(rt)
     r = res[rt]
     for key in r:
-        keySet.append(key)
+        if key is '_85_years_over_percent':
+            keySet.append('_85_200_years_over_percent')
+        else:
+            keySet.append(key)
         valueSet.append(r[key])
     locRes.append(keySet)
     locRes.append(valueSet)

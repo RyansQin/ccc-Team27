@@ -54,7 +54,7 @@ def testUpdate():
 
 def testGetAurindata():
     url = 'http://localhost:5000/aurin'
-    payload = {'task': ['age_distribution', 'population_density', 'tourism'], 'location': ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per']}
+    payload = {'task': ['age_distribution', 'population_density', 'tourism'], 'location': ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per'], 'option': {'age1': 60, 'age2':None}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
     print(data)

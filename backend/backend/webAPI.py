@@ -182,10 +182,46 @@ def getView():
 
 
 #- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - #
-# Deal with the request of aurin data
+
+
+def getAgePercent(server, loc, mapLocation, age1=None, age2=None):
+    database = server.getDatabase('aurin_data')
+    doc = database['age_distribution']
+    res = []
+    for l in loc:
+        ans = 0
+        locRes = []
+        locRes.append(l)
+        data = doc[mapLocation[l]]
+        keySet = data[1]
+        valueSet = data[2]
+        for i in range(1, len(keySet)):
+            tempList = keySet[i].split('_')
+            if age1 is None:
+                if int(tempList[2]) <= age2:
+                    ans += valueSet[i]
+            elif age2 is None:
+                print(tempList)
+                if int(tempList[1]) >= age1:
+                    ans += valueSet[i]
+            else:
+                if int(tempList[1]) >= age1 and int(tempList[2]) <= age1:
+                    ans += valueSet[i]
+        locRes.append(ans)
+        res.append(locRes)
+    return res
+
+
+# Deal with the request of Aurin data
 # The http request contains following keys
 # task: a list that the data we want to access, ['age_distribution', 'population_density', 'tourism']
 # location: the location we want to search, ['can', 'nsw', 'vic', 'ade', 'que', 'per', 'nor', 'tas']
+# option: used by the age_distribution, if it is not in the task field, option = Mone, else contain following keys
+# option: {'age1': age1, 'age2': age2}
+# age1, age2: the interval of age that you want to access
+# if age1 is None, return proportion of people that is younger than age2
+# if age2 is None, return proportion of people that is older than age1
+# if both of them are not None, return proportion of people between age1 and age2
 # For each task, returns a dictionary that contains data of the given location
 @app.route('/aurin', methods=['POST'])
 def getAurinData():
@@ -202,7 +238,7 @@ def getAurinData():
         data = json.loads(request.data)
         task = data['task']
         location = data['location']
-
+        option = data['option']
     except:
         return badRequest('Invalid request of aurin data')
 
@@ -211,15 +247,19 @@ def getAurinData():
         database = server.getDatabase('aurin_data')
         resp = []
         for t in task:
-            doc = database.get(t)
-            temp = []
-            temp.append(t)
-            temp1 = []
-            for loc in location:
-                temp1.append(loc)
-                temp1.append(doc[mapLocation[loc]])
-            temp.append(temp1)
-            resp.append(temp)
+            if t=='age_distribution':
+                resp.append(getAgePercent(server, location, mapLocation, option['age1'], option['age2']))
+            else:
+                doc = database.get(t)
+                temp = []
+                temp.append(t)
+                for loc in location:
+                    temp1 = []
+                    temp1.append(loc)
+                    temp1.append(doc[mapLocation[loc]])
+                    temp.append(temp1)
+
+                resp.append(temp)
         return jsonify({'result':resp})
     except:
         return notFound('Aurin data not found')
