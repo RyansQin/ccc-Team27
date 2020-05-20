@@ -22,7 +22,7 @@ geocode_list = ['-34.9285,138.6007,100km','-35.2809,149.1300,20km','-12.4634,130
 locList = ['vic', 'ade', 'nor', 'can', 'tas', 'que', 'nsw', 'per']
 
 def addTweet(location, content, docID=None):
-    url = 'http://localhost:5000/spider'
+    url = 'http://172.26.131.203:8000/spider'
     database = 'lockdown_'+ location
     payload = {'database':database, 'doc': content, 'docID': docID}
     headers = {'content-type': 'application/json'}

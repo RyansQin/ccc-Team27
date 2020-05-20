@@ -19,7 +19,7 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
 def addTweet(location, content, docID=None):
-    url = 'http://localhost:5000/spider'
+    url = 'http://172.26.131.203:8000/spider'
     database = 'tweet_'+ location
     payload = {'database':database, 'doc': content, 'docID': docID}
     headers = {'content-type': 'application/json'}
