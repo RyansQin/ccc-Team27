@@ -137,20 +137,16 @@ def getLockdownRank(server, location):
 def getCurve(server, location):
     dbName = 'tweet_'+location
     database = server.getDatabase(dbName)
-    view1 = database.view('covid/time', group=True)
-    view2 = database.view('covid/covid_time', group=True)
-    res = {}
-    total = {}
-    covid = {}
-    for item in view1:
-        total[item.key] = item.value
-    for item in view2:
-        covid[item.key] = item.value
-    for key in total:
-        if key not in covid:
-            covid[key] = 0
-    res['total'] = total
-    res['covid'] = covid
+    view = database.view('covid/covid_time', group=True)
+    res = []
+    covid = []
+    date = []
+
+    for item in view:
+        date.append(item.key)
+        covid.append(item.value)
+    res.append(date)
+    res.append(covid)
     return res
 
 
@@ -212,14 +208,19 @@ def getAurinData():
     try:
         server = selectServer()
         database = server.getDatabase('aurin_data')
-        resp = {}
+        resp = []
         for t in task:
             doc = database.get(t)
-            temp = {}
+            temp = []
+            temp.append(t)
+            temp1 = []
             for loc in location:
-                temp[loc] = doc[mapLocation[loc]]
-            resp[t] = temp
-        return jsonify(resp)
+                temp1 = []
+                temp1.append(loc)
+                temp1.append(doc[mapLocation[loc]])
+            temp.append(temp1)
+            resp.append(temp)
+        return jsonify({'result':resp})
     except:
         return notFound('Aurin data not found')
 
