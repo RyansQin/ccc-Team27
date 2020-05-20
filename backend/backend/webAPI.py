@@ -205,6 +205,7 @@ def getAurinData():
 
     except:
         return badRequest('Invalid request of aurin data')
+
     try:
         server = selectServer()
         database = server.getDatabase('aurin_data')
@@ -215,7 +216,6 @@ def getAurinData():
             temp.append(t)
             temp1 = []
             for loc in location:
-                temp1 = []
                 temp1.append(loc)
                 temp1.append(doc[mapLocation[loc]])
             temp.append(temp1)
