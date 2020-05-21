@@ -27,7 +27,7 @@ def testView():
     print(r.json())
 
 def testAddTweet(database, content, docID):
-    url = 'http://localhost:5000/spider'
+    url = 'http://172.26.131.203:8000/spider'
     payload = {'database':database, 'doc': content, 'docID': docID}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
@@ -54,7 +54,7 @@ def testUpdate():
 
 def testGetAurindata():
     url = 'http://172.26.131.203:8000/aurin'
-    payload = {'task': ['age_distribution', 'population_density', 'tourism'], 'location': ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per'], 'option': {'age1': 60, 'age2':None}}
+    payload = {'task': ['age_distribution', 'population_density', 'tourism', 'disease'], 'location': ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per'], 'option': {'age1': 60, 'age2':None}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
     print(data)

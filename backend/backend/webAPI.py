@@ -214,7 +214,7 @@ def getAgePercent(server, loc, mapLocation, age1=None, age2=None):
 
 # Deal with the request of Aurin data
 # The http request contains following keys
-# task: a list that the data we want to access, ['age_distribution', 'population_density', 'tourism']
+# task: a list that the data we want to access, ['age_distribution', 'population_density', 'tourism', 'disease']
 # location: the location we want to search, ['can', 'nsw', 'vic', 'ade', 'que', 'per', 'nor', 'tas']
 # option: used by the age_distribution, if it is not in the task field, option = Mone, else contain following keys
 # option: {'age1': age1, 'age2': age2}
@@ -249,6 +249,8 @@ def getAurinData():
         for t in task:
             if t=='age_distribution':
                 resp.append([t, getAgePercent(server, location, mapLocation, option['age1'], option['age2'])])
+
+
             else:
                 doc = database.get(t)
                 temp = []
@@ -256,7 +258,10 @@ def getAurinData():
                 for loc in location:
                     temp1 = []
                     temp1.append(loc)
-                    temp1.append(doc[mapLocation[loc]])
+                    if t == 'disease':
+                        temp1.append(doc[loc])
+                    else:
+                        temp1.append(doc[mapLocation[loc]])
                     temp.append(temp1)
 
                 resp.append(temp)

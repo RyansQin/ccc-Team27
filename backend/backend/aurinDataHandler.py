@@ -2,6 +2,7 @@ import json
 import os
 import test as t
 
+
 #- - - - - - - - -- - - - - - - - - Handler for the age distribution data - - - - - - - - - - - - - - -- - - - - - - - #
 dic = {"tot_pop_denom":0, "_50_54_years_percent":6.2,"_65_69_years_percent":5.1,"_0_4_years_percent":6.2,"_80_84_years_percent":2.3,"_35_39_years_percent":6.1,"_45_49_years_percent":6.1,"_55_59_years_percent":6.3,"_40_44_years_percent":6.2,"_15_19_years_percent":7.1,"_25_29_years_percent":7.0,"_5_9_years_percent":6.0,"_10_14_years_percent":6.2,"_20_24_years_percent":7.8,"_85_years_over_percent":2.4,"_30_34_years_percent":6.4,"_60_64_years_percent":5.7,"_75_79_years_percent":3.0,"_70_74_years_percent":4.0}
 
@@ -60,7 +61,7 @@ for rt in res:
     finalRes[rt] = locRes
 
 print (finalRes)
-t.testAddTweet('aurin_data', finalRes, "age_distribution")
+# t.testAddTweet('aurin_data', finalRes, "age_distribution")
 
 #- - - - - - - - - - - -- - Handler for Tourism - - - - - - - - - - - - - - -  - - - - - - - - - - - - - - - - - - - - #
 
@@ -74,7 +75,7 @@ resTourism['wa'] = 2.4 * 2059484
 resTourism['act'] = 6.9 * 403208
 resTourism['tas'] = 6.6 * 222000
 resTourism['sa'] = 2.8 * 1345777
-t.testAddTweet('aurin_data', resTourism, 'tourism')
+# t.testAddTweet('aurin_data', resTourism, 'tourism')
 
 
 # - - - - - - - - - - - - - - Handler for population density - - - - - - - - - - - - - - - - - - - - - - - - - - - - - #
@@ -91,4 +92,40 @@ resDensity['wa'] = 2059484/6418
 resDensity['act'] = 403208/2395
 
 
-t.testAddTweet('aurin_data', resDensity, 'population_density')
+# t.testAddTweet('aurin_data', resDensity, 'population_density')
+
+
+#- - - - - - - - - - - - - - -Hanlder for disease - - - - - - - - - - - -  - - - - - - - - - - - - - - - - -  - - - - #
+resDisease = {}
+fileList = ['Asthma.json', 'Blood.json', 'Circulatory.json', 'Diabete.json', 'Heart.json']
+mapLocation = {}
+mapLocation['Northern Territory'] = 'nor'
+mapLocation['Victoria'] = 'vic'
+mapLocation['New South Wales'] = 'nsw'
+mapLocation['South Australia'] = 'ade'
+mapLocation[ 'Australian Capital Territory'] ='can'
+mapLocation['Queensland'] = 'que'
+mapLocation['Western Australia'] = 'per'
+mapLocation['Tasmania'] ='tas'
+
+fRes = {}
+for f in fileList:
+    file = open(f, encoding='utf-8')
+    data = file.read()
+    data = json.loads(data)
+
+    fRes[f.split('.')[0]] = data
+
+for key in mapLocation:
+    locRes = []
+    for f in fileList:
+        temp = []
+        temp.append(f.split('.')[0])
+        temp.append(fRes[f.split('.')[0]][key]['ASR per 100'])
+        locRes.append(temp)
+    resDisease[mapLocation[key]] = locRes
+
+
+
+t.testAddTweet('aurin_data', resDisease, 'disease')
+
