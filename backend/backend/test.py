@@ -60,5 +60,5 @@ def testGetAurindata():
     print(data)
 
 #
-testGetAurindata()
+# testGetAurindata()
 # testView()

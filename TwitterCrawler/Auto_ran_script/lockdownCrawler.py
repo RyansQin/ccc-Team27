@@ -21,6 +21,12 @@ geocode_list = ['-34.9285,138.6007,100km','-35.2809,149.1300,20km','-12.4634,130
 
 locList = ['vic', 'ade', 'nor', 'can', 'tas', 'que', 'nsw', 'per']
 
+f = open('lockdown_max_id.txt','r')
+sinceId = f.read()
+f.close()
+
+first = True
+
 def addTweet(location, content, docID=None):
     url = 'http://172.26.131.203:8000/spider'
     database = 'lockdown_'+ location
@@ -42,7 +48,7 @@ for j in range(8):
 
         while True:
             try:
-                search_results = api.search(q=search_word,count=100, geocode=geocode_list[j],lang='en',max_id=maxId)
+                search_results = api.search(q=search_word,count=100, geocode=geocode_list[j],lang='en',max_id=maxId,since_id=sinceId)
                 if len(search_results) == 0:
                     print("        No result for ", search_word, 'in ', locList[j])
                     print()
@@ -53,8 +59,17 @@ for j in range(8):
                     print()
                     break
 
+
+
+
                 for tweet in search_results:
                     maxId = tweet._json['id']
+
+                    if first:
+                        f1 = open('lockdown_max_id.txt', 'w')
+                        f1.write(str(tweet._json['id']))
+                        f1.close()
+                        first = False
                     # Testing if there is a 'text' field in twitter message and if it is a retweet
                     if 'text' in tweet._json and tweet._json['text'][0:2] != 'RT':
                         # 去网址，很多text内容一样仅网址不同
