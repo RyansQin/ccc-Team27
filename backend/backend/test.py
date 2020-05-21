@@ -22,7 +22,7 @@ def error400test():
 
 def testView():
     url = 'http://localhost:5000/view'
-    payload = {'task': {'location': 'nsw', 'covid':False, 'lockdown': False, 'curve': True}}
+    payload = {'task': {'location': 'nsw', 'covid':False, 'lockdown': True, 'curve': False}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
 
@@ -61,4 +61,4 @@ def testGetAurindata():
 
 #
 # testGetAurindata()
-# testView()
+testView()

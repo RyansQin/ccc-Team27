@@ -35,6 +35,8 @@ def updateDoc(server, dbName, docID, content):
     doc = database.get(docID)
     for conKey in content:
         doc[conKey] = content[conKey]
+    if dbName == 'nlp_res':
+        doc['version'] += 1
     database.save(doc)
 
 
@@ -125,13 +127,19 @@ def calCovidRate(server, location):
     return rate
 
 # For the given location, return the most popular activities during lockdown
-def getLockdownRank(server, location):
-    dbName = 'test_res'
-    docID = 'lockdown_'+location
+def getCluserRes(server, location):
+    dbName = 'nlp_res'
+    docID = location
     database = server.getDatabase(dbName)
     doc = database.get(docID)
-    return doc['result']
+    return doc['clusterRes']
 
+def getSentimentRes(server, location):
+    dbName = 'nlp_res'
+    docID = location
+    database = server.getDatabase(dbName)
+    doc = database.get(docID)
+    return doc['sentimentRes']
 
 #
 def getCurve(server, location):
@@ -164,17 +172,17 @@ def getView():
     resp = {}
     task = json.loads(request.data)['task']
     covidRate = None
-    lockdownRank = None
+    lockdown = None
     curve = None
     location = task['location']
     if task['covid'] is True:
         covidRate = calCovidRate(couchdb, location)
     if task['lockdown'] is True:
-        lockdownRank = getLockdownRank(couchdb, location)
+        lockdown = [['clusterRes', getCluserRes(couchdb, location)], ['sentimentRes', getSentimentRes(couchdb, location)]]
     if task['curve'] is True:
         curve = getCurve(couchdb, location)
     resp['covidRate'] = covidRate
-    resp['lockdownRank'] = lockdownRank
+    resp['lockdownRank'] = lockdown
     resp['curve'] = curve
     return jsonify(resp)
 

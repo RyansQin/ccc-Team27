@@ -22,6 +22,7 @@ def fetchText(database):
     payload= {'database': database}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
+    print(data)
     return data
 
 for db_name in db_list:
@@ -30,7 +31,9 @@ for db_name in db_list:
     result = []
 
     print('[===== Get Twitter Data =====]')
-    doc_set = fetchText(db_name)
+    data= fetchText(db_name)
+    doc_set = data[db_name]
+
 
     print('[===== Delete Stop words =====]')
     tokenizer = RegexpTokenizer(r'\w+')
@@ -104,4 +107,5 @@ for db_name in db_list:
 
     # ldamodel = models.ldamodel.LdaModel(corpus, num_topics=8, id2word=dictionary, passes=50)
     # print(ldamodel.print_topics(num_topics=8, num_words=3))
-    updateResult('test_res', {'result':result}, db_name)
+    name = db_name.split("_")[1]
+    updateResult('nlp_res', {'clusterRes':result}, name)
