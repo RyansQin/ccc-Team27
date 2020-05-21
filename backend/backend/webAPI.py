@@ -248,7 +248,7 @@ def getAurinData():
         resp = []
         for t in task:
             if t=='age_distribution':
-                resp.append(getAgePercent(server, location, mapLocation, option['age1'], option['age2']))
+                resp.append([t, getAgePercent(server, location, mapLocation, option['age1'], option['age2'])])
             else:
                 doc = database.get(t)
                 temp = []
