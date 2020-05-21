@@ -16,6 +16,12 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
+f = open('twitter_max_id.txt','r')
+sinceId = f.read()
+f.close()
+
+first = True
+
 for j in range(8):
     print("Start getting data for ", db_list[j])
     server = couchdb.Server('http://admin:qwert12345@172.26.133.41:8082/')
@@ -30,7 +36,7 @@ for j in range(8):
 
     while True:
         try:
-            search_results = api.search(count=100, geocode=geocode_list[j],lang='en',max_id=maxId)
+            search_results = api.search(count=100, geocode=geocode_list[j],lang='en',max_id=maxId, since_id=sinceId)
             if len(search_results) == 0:
                 print("        No result for ",db_list[j])
                 print()
@@ -43,6 +49,14 @@ for j in range(8):
 
             for tweet in search_results:
                 maxId = tweet._json['id']
+
+                if first:
+                    f1 = open('twitter_max_id.txt', 'w')
+                    f1.write(str(tweet._json['id']))
+                    f1.close()
+                    first = False
+
+
                 # Testing if there is a 'text' field in twitter message and if it is a retweet
                 if 'text' in tweet._json and tweet._json['text'][0:2] != 'RT':
                     # Doing data preprocessing
@@ -71,7 +85,7 @@ for j in range(8):
 
                     last_hash = hash(tweet._json['text'])
                     n += 1
-                    db.save(tweets)
+                    # db.save(tweets)
             batch += 1
             print('        ',batch,'  ',n,'  ', last_id,'  ', last_time)
         except Exception as e:
