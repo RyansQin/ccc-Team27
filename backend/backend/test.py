@@ -20,11 +20,11 @@ def error400test():
     print(r.json())
 
 
-def testView():
-    url = 'http://localhost:5000/view'
-    payload = {'task': {'location': 'nsw', 'covid':False, 'lockdown': True, 'curve': False}}
-    r = requests.post(url, data=json.dumps(payload), headers=headers)
-    print(r.json())
+# def testView():
+#     url = 'http://localhost:5000/view'
+#     payload = {'task': {'location': 'nsw', 'covid':True, 'lockdown': True, 'curve': False}}
+#     r = requests.post(url, data=json.dumps(payload), headers=headers)
+#     print(r.json())
 
 def testAddTweet(database, content, docID):
     url = 'http://172.26.131.203:8000/spider'
@@ -52,13 +52,39 @@ def testUpdate():
     data = r.json()
     print(data)
 
-def testGetAurindata():
-    url = 'http://172.26.131.203:8000/aurin'
-    payload = {'task': ['age_distribution', 'population_density', 'tourism', 'disease'], 'location': ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per'], 'option': {'age1': 60, 'age2':None}}
-    r = requests.post(url, data=json.dumps(payload), headers=headers)
-    data = r.json()
-    print(data)
+# def testGetAurindata():
+#     url = 'http://172.26.131.203:8000/aurin'
+#     payload = {'task': ['age_distribution', 'population_density', 'tourism', 'disease'], 'location': ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per'], 'option': {'age1': 60, 'age2':None}}
+#     r = requests.post(url, data=json.dumps(payload), headers=headers)
+#     data = r.json()
+#     print(data)
 
-#
-# testGetAurindata()
-testView()
+
+# @app.route('/view/<task>/<location>', methods=['GET'])
+# The task can be: covidRate, curve, lockdown
+def testGetView1():
+    url = 'http://localhost:5000/view/covidRate/ade'
+    r = requests.get(url, headers=headers)
+    print((r.json()))
+
+# @app.route('/aurin/ageDistribution/<age>', methods=['GET'])
+# For the age_distribution data
+# return the proportion of people that are equal or larger then <age>
+def testGetAgeData():
+    url = 'http://localhost:5000/aurin/ageDistribution/60'
+    r = requests.get(url, headers=headers)
+    print((r.json()))
+
+
+# @app.route('/aurin/<task>')
+# For other aurin data
+# The task field can be: disease, population_density, tourism
+def testGetAurinData1():
+    url = 'http://localhost:5000/aurin/disease'
+    r = requests.get(url, headers=headers)
+    print((r.json()))
+
+
+testGetAurinData1()
+testGetView1()
+testGetAgeData()

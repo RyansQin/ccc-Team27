@@ -157,10 +157,31 @@ def getCurve(server, location):
     res.append(covid)
     return res
 
+# The task can be: covidRate, curve, lockdown
+@app.route('/view/<task>/<location>', methods=['GET'])
+def getView1(task, location):
+    couchdb = selectServer()
+    resp = {}
+    try:
+        if task == 'covidRate':
+            covidRate = calCovidRate(couchdb, location)
+            resp['covidRate'] = covidRate
+        elif task == 'lockdown':
+            lockdown = [['clusterRes', getCluserRes(couchdb, location)],
+                        ['sentimentRes', getSentimentRes(couchdb, location)]]
+            resp['lockdownRank'] = lockdown
+        else:
+            curve = getCurve(couchdb, location)
+            resp['curve'] = curve
+        return jsonify(resp)
+    except:
+        notFound('The view not exist')
+
+
 
 # The http request contains a json object like {task:{task dictionary}}
 # In the task, there are following keys:
-#location: the location that we want to explore, including nsw, ade, vic, nor, per, tas, que, can
+# location: the location that we want to explore, including nsw, ade, vic, nor, per, tas, que, can
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
 # Curve: True/False, indicate whether it needs to calculate the curve
@@ -192,7 +213,7 @@ def getView():
 #- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - #
 
 
-def getAgePercent(server, loc, mapLocation, age1=None, age2=None):
+def getAgePercent(server, loc, mapLocation, age):
     database = server.getDatabase('aurin_data')
     doc = database['age_distribution']
     res = []
@@ -205,19 +226,87 @@ def getAgePercent(server, loc, mapLocation, age1=None, age2=None):
         valueSet = data[2]
         for i in range(1, len(keySet)):
             tempList = keySet[i].split('_')
-            if age1 is None:
-                if int(tempList[2]) <= age2:
-                    ans += valueSet[i]
-            elif age2 is None:
-                print(tempList)
-                if int(tempList[1]) >= age1:
-                    ans += valueSet[i]
-            else:
-                if int(tempList[1]) >= age1 and int(tempList[2]) <= age1:
-                    ans += valueSet[i]
+
+            if int(tempList[1]) >= int(age):
+                ans += valueSet[i]
+
         locRes.append(ans)
         res.append(locRes)
     return res
+
+@app.route('/test/<testArgs1>/<testArgs2>', methods=['GET'])
+def testGet(testArgs1, testArgs2):
+    print(testArgs1)
+    print(testArgs2)
+    return testArgs1+testArgs2
+
+#For the age_distribution data
+# return the proportion of people that are equal or larger then <age>
+@app.route('/aurin/ageDistribution/<age>', methods=['GET'])
+def getAgeData(age):
+    mapLocation = {}
+    mapLocation['can'] = 'act'
+    mapLocation['nor'] = 'nt'
+    mapLocation['nsw'] = 'nsw'
+    mapLocation['per'] = 'wa'
+    mapLocation['ade'] = 'sa'
+    mapLocation['tas'] = 'tas'
+    mapLocation['vic'] = 'vic'
+    mapLocation['que'] = 'qld'
+    location = ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per']
+    try:
+        server = selectServer()
+        resp = []
+
+
+        resp.append(['age_distribution', getAgePercent(server, location, mapLocation, age)])
+        return jsonify({'result': resp})
+    except:
+        notFound('The required data not found')
+
+
+# For other aurin data
+# The task field can be: disease, population_density, tourism
+@app.route('/aurin/<task>', methods=['GET'])
+def getAurinData1(task):
+    mapLocation = {}
+    mapLocation['can'] = 'act'
+    mapLocation['nor'] = 'nt'
+    mapLocation['nsw'] = 'nsw'
+    mapLocation['per'] = 'wa'
+    mapLocation['ade'] = 'sa'
+    mapLocation['tas'] = 'tas'
+    mapLocation['vic'] = 'vic'
+    mapLocation['que'] = 'qld'
+    locLst = ['nor', 'nsw', 'vic', 'can', 'ade', 'que', 'tas', 'per']
+    try:
+        server = selectServer()
+        database = server.getDatabase('aurin_data')
+    except:
+        notFound('The database is unavailable')
+    try:
+        resp = []
+        doc = database.get(task)
+        temp = []
+        temp.append(task)
+        for loc in locLst:
+            temp1 = []
+            temp1.append(loc)
+            if task == 'disease':
+                temp1.append(doc[loc])
+            else:
+                temp1.append(doc[mapLocation[loc]])
+            temp.append(temp1)
+        resp.append(temp)
+        return jsonify({'result': resp})
+    except:
+        notFound('The required data not found')
+
+
+
+
+
+
 
 
 # Deal with the request of Aurin data
