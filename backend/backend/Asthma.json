@@ -1,0 +1,82 @@
+{
+  "New South Wales": {
+    "Name": "New South Wales",
+    "Number": 769500.0,
+    "ASR per 100": 10.3227028300049,
+    "ASR per 100\n- lower 95% C.I.": 10.002182209102957,
+    "ASR per 100\n- upper 95% C.I.": 10.643223450906843,
+    "SR": 95.3714184615498,
+    "SR\n- lower 95% C.I.": 92.41012946921903,
+    "SR\n- upper 95% C.I.": 98.33270745388054
+  },
+  "Victoria": {
+    "Name": "Victoria",
+    "Number": 688045.0,
+    "ASR per 100": 11.914604625787637,
+    "ASR per 100\n- lower 95% C.I.": 11.504979205003965,
+    "ASR per 100\n- upper 95% C.I.": 12.32423004657131,
+    "SR": 110.07899406606964,
+    "SR\n- lower 95% C.I.": 106.29446611235448,
+    "SR\n- upper 95% C.I.": 113.8635220197848
+  },
+  "Queensland": {
+    "Name": "Queensland",
+    "Number": 486053.00000000006,
+    "ASR per 100": 10.643610489480329,
+    "ASR per 100\n- lower 95% C.I.": 10.276793677018828,
+    "ASR per 100\n- upper 95% C.I.": 11.01042730194183,
+    "SR": 98.33628330202426,
+    "SR\n- lower 95% C.I.": 94.94726394380827,
+    "SR\n- upper 95% C.I.": 101.72530266024025
+  },
+  "South Australia": {
+    "Name": "South Australia",
+    "Number": 173080.0,
+    "ASR per 100": 10.615784942912445,
+    "ASR per 100\n- lower 95% C.I.": 10.051121291909185,
+    "ASR per 100\n- upper 95% C.I.": 11.180448593915704,
+    "SR": 98.07920316619652,
+    "SR\n- lower 95% C.I.": 92.86227749888728,
+    "SR\n- upper 95% C.I.": 103.29612883350576
+  },
+  "Western Australia": {
+    "Name": "Western Australia",
+    "Number": 235317.00000000003,
+    "ASR per 100": 9.49531675371181,
+    "ASR per 100\n- lower 95% C.I.": 9.020607147627151,
+    "ASR per 100\n- upper 95% C.I.": 9.970026359796467,
+    "SR": 87.72720114648342,
+    "SR\n- lower 95% C.I.": 83.34136061274059,
+    "SR\n- upper 95% C.I.": 92.11304168022625
+  },
+  "Tasmania": {
+    "Name": "Tasmania",
+    "Number": 63337.0,
+    "ASR per 100": 12.566959940708772,
+    "ASR per 100\n- lower 95% C.I.": 11.710934847296008,
+    "ASR per 100\n- upper 95% C.I.": 13.422985034121533,
+    "SR": 116.10610273610872,
+    "SR\n- lower 95% C.I.": 108.19728963338596,
+    "SR\n- upper 95% C.I.": 124.01491583883146
+  },
+  "Northern Territory": {
+    "Name": "Northern Territory",
+    "Number": 14334.0,
+    "ASR per 100": 8.191858677699013,
+    "ASR per 100\n- lower 95% C.I.": 6.951725393314149,
+    "ASR per 100\n- upper 95% C.I.": 9.431991962083877,
+    "SR": 75.68455614723337,
+    "SR\n- lower 95% C.I.": 64.22696869548756,
+    "SR\n- upper 95% C.I.": 87.14214359897917
+  },
+  "Australian Capital Territory": {
+    "Name": "Australian Capital Territory",
+    "Number": 43516.00000000001,
+    "ASR per 100": 11.511134237352072,
+    "ASR per 100\n- lower 95% C.I.": 10.460958153982485,
+    "ASR per 100\n- upper 95% C.I.": 12.561310320721658,
+    "SR": 106.35133243655103,
+    "SR\n- lower 95% C.I.": 96.64875895800164,
+    "SR\n- upper 95% C.I.": 116.0539059151004
+  }
+}

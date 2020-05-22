@@ -35,6 +35,8 @@ def updateDoc(server, dbName, docID, content):
     doc = database.get(docID)
     for conKey in content:
         doc[conKey] = content[conKey]
+    if dbName == 'nlp_res':
+        doc['version'] += 1
     database.save(doc)
 
 
@@ -57,13 +59,18 @@ def notFound(errorMessage):
 
 #- - - - - - - - - - - - - - - - - API for crawler- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# The http request contains a json object like {doc dictionary}}
+# The http request contains a json object like {'databased: db, 'doc':{doc dictionary}, 'docID': None/ID}
+# db: The database that need to be accessed
 # doc: a dictionary, contains data
+# docID: if the docID is None, use ramdon ID
 # Retrun a json object
-@app.route('/spider/<db>', methods=['POST'])
-def addTwitter(db):
+@app.route('/spider', methods=['POST'])
+def addTwitter():
     try:
-        doc = json.loads(request.data)
+        data = json.loads(request.data)
+        db = data['database']
+        doc = data['doc']
+        docID = data['docID']
     except:
         return badRequest('Not a valid Json document')
     try:
@@ -73,7 +80,10 @@ def addTwitter(db):
     except:
         return notFound('Required database not found')
     try:
-        database.save(doc)
+        if docID is None:
+            database.save(doc)
+        else:
+            database[docID] = doc
         return jsonify({'database':db, 'Status': "completed"})
     except:
         return badRequest('Fail to add a new document')
@@ -117,13 +127,35 @@ def calCovidRate(server, location):
     return rate
 
 # For the given location, return the most popular activities during lockdown
-def getLockdownRank(server, location):
-    dbName = 'test_res'
-    docID = 'lockdown_'+location
+def getCluserRes(server, location):
+    dbName = 'nlp_res'
+    docID = location
     database = server.getDatabase(dbName)
     doc = database.get(docID)
-    return doc['result']
+    return doc['clusterRes']
 
+def getSentimentRes(server, location):
+    dbName = 'nlp_res'
+    docID = location
+    database = server.getDatabase(dbName)
+    doc = database.get(docID)
+    return doc['sentimentRes']
+
+#
+def getCurve(server, location):
+    dbName = 'tweet_'+location
+    database = server.getDatabase(dbName)
+    view = database.view('covid/covid_time', group=True)
+    res = []
+    covid = []
+    date = []
+
+    for item in view:
+        date.append(item.key)
+        covid.append(item.value)
+    res.append(date)
+    res.append(covid)
+    return res
 
 
 # The http request contains a json object like {task:{task dictionary}}
@@ -131,6 +163,7 @@ def getLockdownRank(server, location):
 #location: the location that we want to explore, including nsw, ade, vic, nor, per, tas, que, can
 # covid: True/False, indicate whether it needs the proportion of tweets that related to covid
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
+# Curve: True/False, indicate whether it needs to calculate the curve
 # Retrun a json object
 @app.route('/view', methods=['POST'])
 def getView():
@@ -139,19 +172,110 @@ def getView():
     resp = {}
     task = json.loads(request.data)['task']
     covidRate = None
-    lockdownRank = None
+    lockdown = None
+    curve = None
     location = task['location']
     if task['covid'] is True:
         covidRate = calCovidRate(couchdb, location)
     if task['lockdown'] is True:
-        lockdownRank = getLockdownRank(couchdb, location)
+        lockdown = [['clusterRes', getCluserRes(couchdb, location)], ['sentimentRes', getSentimentRes(couchdb, location)]]
+    if task['curve'] is True:
+        curve = getCurve(couchdb, location)
     resp['covidRate'] = covidRate
-    resp['lockdownRank'] = lockdownRank
+    resp['lockdownRank'] = lockdown
+    resp['curve'] = curve
     return jsonify(resp)
 
 
-#- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - -
 
+
+#- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - #
+
+
+def getAgePercent(server, loc, mapLocation, age1=None, age2=None):
+    database = server.getDatabase('aurin_data')
+    doc = database['age_distribution']
+    res = []
+    for l in loc:
+        ans = 0
+        locRes = []
+        locRes.append(l)
+        data = doc[mapLocation[l]]
+        keySet = data[1]
+        valueSet = data[2]
+        for i in range(1, len(keySet)):
+            tempList = keySet[i].split('_')
+            if age1 is None:
+                if int(tempList[2]) <= age2:
+                    ans += valueSet[i]
+            elif age2 is None:
+                print(tempList)
+                if int(tempList[1]) >= age1:
+                    ans += valueSet[i]
+            else:
+                if int(tempList[1]) >= age1 and int(tempList[2]) <= age1:
+                    ans += valueSet[i]
+        locRes.append(ans)
+        res.append(locRes)
+    return res
+
+
+# Deal with the request of Aurin data
+# The http request contains following keys
+# task: a list that the data we want to access, ['age_distribution', 'population_density', 'tourism', 'disease']
+# location: the location we want to search, ['can', 'nsw', 'vic', 'ade', 'que', 'per', 'nor', 'tas']
+# option: used by the age_distribution, if it is not in the task field, option = Mone, else contain following keys
+# option: {'age1': age1, 'age2': age2}
+# age1, age2: the interval of age that you want to access
+# if age1 is None, return proportion of people that is younger than age2
+# if age2 is None, return proportion of people that is older than age1
+# if both of them are not None, return proportion of people between age1 and age2
+# For each task, returns a dictionary that contains data of the given location
+@app.route('/aurin', methods=['POST'])
+def getAurinData():
+    mapLocation = {}
+    mapLocation['can'] = 'act'
+    mapLocation['nor'] = 'nt'
+    mapLocation['nsw'] = 'nsw'
+    mapLocation['per'] = 'wa'
+    mapLocation['ade'] = 'sa'
+    mapLocation['tas'] = 'tas'
+    mapLocation['vic'] = 'vic'
+    mapLocation['que'] = 'qld'
+    try:
+        data = json.loads(request.data)
+        task = data['task']
+        location = data['location']
+        option = data['option']
+    except:
+        return badRequest('Invalid request of aurin data')
+
+    try:
+        server = selectServer()
+        database = server.getDatabase('aurin_data')
+        resp = []
+        for t in task:
+            if t=='age_distribution':
+                resp.append([t, getAgePercent(server, location, mapLocation, option['age1'], option['age2'])])
+
+
+            else:
+                doc = database.get(t)
+                temp = []
+                temp.append(t)
+                for loc in location:
+                    temp1 = []
+                    temp1.append(loc)
+                    if t == 'disease':
+                        temp1.append(doc[loc])
+                    else:
+                        temp1.append(doc[mapLocation[loc]])
+                    temp.append(temp1)
+
+                resp.append(temp)
+        return jsonify({'result':resp})
+    except:
+        return notFound('Aurin data not found')
 
 
 
