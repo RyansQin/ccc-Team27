@@ -1,4 +1,5 @@
-export default{
-    "covid":222,
-    "total":333
-}
+export default[
+            ['Apri 4','Apri5','Apri 90'],
+            [5,8,90]
+        
+]

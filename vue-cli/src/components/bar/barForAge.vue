@@ -25,6 +25,10 @@
       }
     },
     computed: {
+        allData() {
+            
+            return this.$store.getters.getAge;
+        },
         stateData() {
             
             return this.$store.getters.getStates;
@@ -41,11 +45,11 @@
         that.echarts = echarts
         that.bar = {
           title:{
-            text:'infections',
-            left: 'center',
-            textStyle:{
-              color:'#fc9272'
-            }
+              text: 'age > 60',
+              left: 'center',
+                         textStyle:{
+                  color:'#4292c6'
+              }
           },
           tooltip:{},
           yAxis: {
@@ -57,15 +61,16 @@
           },
           series: [
             {
+              name: 'propertion of age > 60',
               type: 'bar',
               itemStyle: {
                 normal: {
                   color: new echarts.graphic.LinearGradient(
                     0, 0, 0, 1,
                     [
-                      {offset: 0, color: '#fee0d2'},
-                      {offset: 0.5, color: '#fc9272'},
-                      {offset: 1, color: '#ef3b2c'}
+                      {offset: 0, color: '#9ecae1'},
+                      {offset: 0.5, color: '#4292c6'},
+                      {offset: 1, color: '#08519c'}
                     ]
                   )
                 }
@@ -77,7 +82,8 @@
                 }
               },
               barWidth: 20,
-              data: this.stateData[1]
+              data: [this.allData[7][1],this.allData[0][1],this.allData[5][1],this.allData[4][1],this.allData[1][1],
+              this.allData[3][1],this.allData[6][1],this.allData[2][1],]
             }
           ]
         }
@@ -97,7 +103,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .echarts {
-    width: 400px;
+    width: 350px;
     height: 400px;
     margin: 0 auto;
   }

@@ -6,7 +6,7 @@
                 <li>
                    
                     <div class="one">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">>7000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">3082 cases</div>
                   
                     
                     
@@ -14,43 +14,51 @@
 
                 <li>
                     <div class="two">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">6000~7000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">1581 cases</div>
                 </li>
 
                 <li>
                     <div class="three">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">5000~6000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">1058 cases</div>
                 </li>
 
                 <li>
                     <div class="four">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">4000~5000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">557 cases</div>
                 </li>
 
 
                 <li>
                     <div class="five">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">3000~4000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">439 cases</div>
                 </li>
 
                 <li>
                    <div class="six">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">2000~3000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">226 cases</div>
                 </li>
 
                 <li>
                    <div class="seven">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">1000~2000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">107 cases</div>
                 </li>
 
                 <li>
                     <div class="eight">aaaa</div>
-                    <div style="display:inline; width:'50px'; height:'25px'">0~1000cases</div>
+                    <div style="display:inline; width:'50px'; height:'25px'">30 cases</div>
                 </li>
 
             </ul>
         </div>
-        <div class="map" ref="myEchart"></div>
+        <div class="row">
+        <div class="col">
+            <div class="map" ref="myEchart"></div>
+        </div>
+        <div  class="col">
+            <Bar></Bar>
+        </div>
+        </div>
+        
     </div>
 </div>
 </template>
@@ -58,11 +66,14 @@
 <script>
 import echarts from 'echarts';
 import aus from './states.json';
+import Bar from '../bar/bar.vue';
 var myJson = aus;
 
 
 export default {
-
+    components: {
+        Bar
+    },
     props: {
         areaCode: {
             type: String,
@@ -132,7 +143,8 @@ export default {
 	            "task":{
 		        "location": self.nameTransfer(location),
 		        "covid": true,
-		        "lockdown": false
+                "lockdown": true,
+                "curve": true
 	            }
                 }
             console.log(request);
@@ -147,7 +159,12 @@ export default {
                         location: self.location
 
                     }
+                    var curve = data.curve[1];
+                    var sentiment = data.lockdownRank[1][1];
                     self.$store.dispatch('loadCovidRate',covidRateInfo);
+                    self.$store.dispatch('loadCurve', curve);
+                    self.$store.dispatch('loadDate', self.location);
+                    self.$store.dispatch('loadSentiment',sentiment);
                     self.$router.push({path: '/details'}); 
                 }
             });
@@ -237,7 +254,7 @@ export default {
                     name: 'South Australia',
                     itemStyle: {
                         normal: {
-                            areaColor: this.colors[3].color
+                            areaColor: this.colors[4].color
                         },
                     }
                 },
@@ -245,7 +262,7 @@ export default {
                     name: 'Western Australia',
                     itemStyle: {
                         normal: {
-                            areaColor: this.colors[4].color
+                            areaColor: this.colors[3].color
                         },
                     }
                 },
@@ -371,13 +388,14 @@ export default {
 </script>
 
 <style scoped>
-    .frame {
-        width: 1195px;
-        height: 585px;
+    /* .frame {
+       width: 100%;
+        height: 100%;
         background-image: url('../picture/COVID_19_iS1210596217_hero.jpg');
-    }
+        z-index: -1;
+    } */
     .map {
-        width: 700px;
+        width: 600px;
         height: 521px;
     }
     .one {

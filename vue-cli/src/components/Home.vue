@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <app-header></app-header>
+  <hr>
   <div class="map">
     
    
@@ -33,7 +34,8 @@
 </script>
 
 <style >
-
+ 
+       
 
 
 </style>

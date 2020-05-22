@@ -1,6 +1,6 @@
 <template>
 
-      <div id="pie_chart"></div>
+      <div id="pie_chart_sent"></div>
 
 </template>
 
@@ -9,7 +9,7 @@
   export default {
     data() {
       return {
-        covid: this.$store.getters.getCovidRate
+        sentiment: this.$store.getters.getSentiment
       }
     },
     mounted() {
@@ -19,12 +19,12 @@
     },
     methods: {
       buildPie() {
-        let pie = echarts.init(document.getElementById('pie_chart'))
+        let pie = echarts.init(document.getElementById('pie_chart_sent'))
         let data = this.buildData()
         let option = {
           backgroundColor: '',
           title: {
-            text: 'tweets collected',
+            text: 'sentiment analysis',
             x: 'center',
             
           },
@@ -59,16 +59,21 @@
         })
       },
       buildData() {
-        let labels = ['total','covid']
+        let labels = ['negative','neutral','positive']
         let values = [];
         values.push({
-          value: this.covid.total,
+          value: this.sentiment.negative_proportion,
           name: labels[0],
           color: this.randomColor()
         }),
         values.push({
-          value: this.covid.covid,
+          value: this.sentiment.neutral_proportion,
           name: labels[1],
+          color: this.randomColor()
+        }),
+        values.push({
+          value: this.sentiment.positive_proportion,
+          name: labels[2],
           color: this.randomColor()
         })
         // for (let i = 0; i < labels.length; i++) {
@@ -96,7 +101,7 @@
 </script>
 
 <style scoped>
-  #pie_chart {
+  #pie_chart_sent {
     width: 500px;
     height: 400px;
   }

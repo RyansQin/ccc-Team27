@@ -25,6 +25,10 @@
       }
     },
     computed: {
+        allData() {
+            
+            return this.$store.getters.getPopulation;
+        },
         stateData() {
             
             return this.$store.getters.getStates;
@@ -40,13 +44,13 @@
         that.ins = instance
         that.echarts = echarts
         that.bar = {
-          title:{
-            text:'infections',
-            left: 'center',
-            textStyle:{
-              color:'#fc9272'
-            }
-          },
+            title:{
+                text:'population density',
+                left: 'center',
+                textStyle:{
+                  color:'#807dba'
+                }
+            },
           tooltip:{},
           yAxis: {
             type: 'value',
@@ -57,15 +61,16 @@
           },
           series: [
             {
+                name:'popualtion_density',
               type: 'bar',
               itemStyle: {
                 normal: {
                   color: new echarts.graphic.LinearGradient(
                     0, 0, 0, 1,
                     [
-                      {offset: 0, color: '#fee0d2'},
-                      {offset: 0.5, color: '#fc9272'},
-                      {offset: 1, color: '#ef3b2c'}
+                      {offset: 0, color: '#bcbddc'},
+                      {offset: 0.5, color: '#807dba'},
+                      {offset: 1, color: '#54278f'}
                     ]
                   )
                 }
@@ -77,7 +82,8 @@
                 }
               },
               barWidth: 20,
-              data: this.stateData[1]
+              data: [this.allData[8][1],this.allData[1][1],this.allData[6][1],this.allData[5][1],
+              this.allData[2][1],this.allData[4][1],this.allData[7][1],this.allData[3][1]]
             }
           ]
         }
@@ -87,6 +93,8 @@
     //   const that = this
     // },
     mounted () {
+        console.log("population");
+        console.log(this.$store.getters.getPopulation);
     }
     // beforeDestroy () {
     //   const that = this
@@ -97,7 +105,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .echarts {
-    width: 400px;
+    width: 350px;
     height: 400px;
     margin: 0 auto;
   }

@@ -7,9 +7,13 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li >
         
         <a class="nav-link" @click="toHome()" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+
+      <li>
+         <a class="nav-link" @click="loadAurin()" href="#">Aurin <span class="sr-only">(current)</span></a>
       </li>
 
       
@@ -32,7 +36,39 @@ export default {
 
         toHome() {
           this.$router.push({path: '/home'});
+        },
+        loadAurin(){
+          var request = {
+	            "task": 
+              ["age_distribution", "population_density", "tourism","disease"], "location": ["nor", "nsw", "vic", "can", "ade", "que", "tas", "per"],
+	            "option":{"age1":60,"age2":null}
+                }
+            console.log(request);
+            this.$http.post('http://172.26.131.203:8000/aurin',request)
+            .then(response => response.json())
+            .then(data => {
+                if(data){
+                    // var location = request.location;
+                    // var covid = data.covidRate;
+                    var age = data.result[0][1];
+                    var population = data.result[1];
+                    var tourism = data.result[2];
+                    var disease = data.result[3];
+                    this.$store.dispatch('loadAge',age);
+                    this.$store.dispatch('loadPopulation', population);
+                    this.$store.dispatch('loadTourism', tourism);
+                    this.$store.dispatch('loadDisease', disease);
+                   // self.$store.dispatch('loadSentiment',sentiment);
+                    this.toAurin();
+                }
+            });
+        },
+
+
+        toAurin() {
+          this.$router.push({path: '/aurin'});
         }
+
     }
 }
 </script>>
