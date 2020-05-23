@@ -71,14 +71,14 @@ for db_name in db_list:
     # print('Time used is %.3f sec.' % (time.time() - t_start))
 
     print('[===== Create LDA model =====]')
-    num_topics = 3
+    num_topics = 5
     t_start = time.time()
     lda = models.LdaModel(corpus_tfidf, num_topics=num_topics, id2word=dictionary, alpha=0.01, eta=0.01,
                           minimum_probability=0.001, update_every=1, chunksize=100, passes=50)
     # print('Time used for creating model is %.3f' % (time.time() - t_start))
 
     print('[===== Result, topic of each documents =====]')
-    num_show_topics = 3
+    num_show_topics = 5
     doc_topics = lda.get_document_topics(corpus_tfidf)
     idx = np.arange(M)
     np.random.shuffle(idx)
