@@ -139,35 +139,95 @@ export default {
               }
         },
         initData(location, self) {
-            var request = {
-	            "task":{
-		        "location": self.nameTransfer(location),
-		        "covid": true,
-                "lockdown": true,
-                "curve": true
-	            }
-                }
-            console.log(request);
-            self.$http.post('http://172.26.131.203:8000/view',request)
+            var task1 = 'covidRate';
+            var task2 = 'curve';
+            var task3 = 'lockdown';
+            var loca = self.nameTransfer(location);
+            var covidRateInfo = {};
+            var curve = [];
+            var sentiment = [];
+            self.$http.get('http://172.26.131.203:8000/view/'+ task1+ '/'+ loca)
             .then(response => response.json())
             .then(data => {
                 if(data){
-                    // var location = request.location;
-                    // var covid = data.covidRate;
-                    var covidRateInfo = {
+                    covidRateInfo = {
                         covidRate: data.covidRate,
                         location: self.location
+                    };
+                    self.$http.get('http://172.26.131.203:8000/view/'+ task2+ '/'+ loca)
+                    .then(response => response.json())
+                    .then(data => {
+                        if(data){
+                        curve = data.curve[1];
 
-                    }
-                    var curve = data.curve[1];
-                    var sentiment = data.lockdownRank[1][1];
-                    self.$store.dispatch('loadCovidRate',covidRateInfo);
-                    self.$store.dispatch('loadCurve', curve);
-                    self.$store.dispatch('loadDate', self.location);
-                    self.$store.dispatch('loadSentiment',sentiment);
-                    self.$router.push({path: '/details'}); 
+                        self.$http.get('http://172.26.131.203:8000/view/'+ task3+ '/'+ loca)
+                        .then(response => response.json())
+                        .then(data => {
+                        if(data){
+                            sentiment = data.lockdownRank[1][1];
+                            self.$store.dispatch('loadCovidRate',covidRateInfo);
+                            self.$store.dispatch('loadCurve', curve);
+                            self.$store.dispatch('loadDate', self.location);
+                            self.$store.dispatch('loadSentiment',sentiment);
+                            self.$router.push({path: '/details'}); 
+
+                        }
+                    });
+                        };
+
+                    })
                 }
-            });
+            })
+            // self.$http.get('http://172.26.131.203:8000/view/${task2}/${loca}')
+            // .then(response => response.json())
+            // .then(data => {
+            //     if(data){
+            //         curve = data.curve[1];
+            //     }
+            // })
+            //  self.$http.get('http://172.26.131.203:8000/view/${task3}/${loca}')
+            // .then(response => response.json())
+            // .then(data => {
+            //     if(data){
+            //         sentiment = data.lockdownRank[1][1];
+            //         self.$store.dispatch('loadCovidRate',covidRateInfo);
+            //         self.$store.dispatch('loadCurve', curve);
+            //         self.$store.dispatch('loadDate', self.location);
+            //         self.$store.dispatch('loadSentiment',sentiment);
+            //         self.$router.push({path: '/details'}); 
+            //     }
+            // });
+
+
+            // var request = {
+	        //     "task":{
+		    //     "location": self.nameTransfer(location),
+		    //     "covid": true,
+            //     "lockdown": true,
+            //     "curve": true
+	        //     }
+            //     }
+            // console.log(request);
+            // self.$http.post('http://172.26.131.203:8000/view',request)
+            // .then(response => response.json())
+            // .then(data => {
+            //     if(data){
+            //         // var location = request.location;
+            //         // var covid = data.covidRate;
+            //         var covidRateInfo = {
+            //             covidRate: data.covidRate,
+            //             location: self.location
+
+            //         }
+            //         var curve = data.curve[1];
+            //         var sentiment = data.lockdownRank[1][1];
+            //         self.$store.dispatch('loadCovidRate',covidRateInfo);
+            //         self.$store.dispatch('loadCurve', curve);
+            //         self.$store.dispatch('loadDate', self.location);
+            //         self.$store.dispatch('loadSentiment',sentiment);
+            //         self.$router.push({path: '/details'}); 
+            //     }
+            // });
             
         },
 
