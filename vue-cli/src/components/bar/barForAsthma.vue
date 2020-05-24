@@ -61,7 +61,7 @@
           },
           series: [
             {
-              name: 'propertion of asthma',
+              name: 'proportion',
               type: 'bar',
               itemStyle: {
                 normal: {

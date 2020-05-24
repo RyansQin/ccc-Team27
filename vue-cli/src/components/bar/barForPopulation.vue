@@ -105,7 +105,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .echarts {
-    width: 350px;
+    width: 800px;
     height: 400px;
     margin: 0 auto;
   }

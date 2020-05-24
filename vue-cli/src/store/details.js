@@ -94,13 +94,13 @@ const mutations = {
             case "South Australia":
                 state.covidRateForSA = covidRate;
                 state.covidRate = state.covidRateForSA;
-                state.covidNum = state.covidNumForSA;
+                state.covidNum = covidNumForSA;
                 state.action = actionForSA;
                 break;
             case "New South Wales":
                 state.covidRateForNSW = covidRate;
                 state.covidRate = state.covidRateForNSW;
-                state.covidNum = state.covidNumForNSW;
+                state.covidNum = covidNumForNSW;
                 state.action = actionForNSW;
                 break;
             case  "Australian Capital Territory":

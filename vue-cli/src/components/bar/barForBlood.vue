@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text: 'Blood',
+              text: 'high blood cholesteroll',
               left: 'center',
                          textStyle:{
                   color:'#800026'
@@ -61,7 +61,7 @@
           },
           series: [
             {
-              name: 'propertion of Blood',
+              name: 'proportion',
               type: 'bar',
               itemStyle: {
                 normal: {

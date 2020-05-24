@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text: 'Heart',
+              text: 'Heart disease',
               left: 'center',
                          textStyle:{
                   color:'#810f7c'
@@ -61,7 +61,7 @@
           },
           series: [
             {
-              name: 'propertion of heart',
+              name: 'proportion',
               type: 'bar',
               itemStyle: {
                 normal: {

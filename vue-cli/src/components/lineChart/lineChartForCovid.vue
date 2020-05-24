@@ -41,7 +41,8 @@
         that.echarts = echarts
         that.option =  {
           title: {
-            text: ''
+            text: 'the number of infections',
+            left: 'center'
           },
           tooltip: {
             trigger: 'axis'
@@ -98,7 +99,7 @@
           series: [
 
             {
-              name: 'infected number',
+              
               type: 'line',
               smooth: false,
               lineStyle: {                // 线条样式 => 必须使用normal属性

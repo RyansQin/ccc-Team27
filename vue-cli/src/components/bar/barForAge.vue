@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text: 'age > 60',
+              text: '',
               left: 'center',
                          textStyle:{
                   color:'#4292c6'
@@ -54,6 +54,7 @@
           tooltip:{},
           yAxis: {
             type: 'value',
+            name: 'percentage'
           },
           xAxis: {
             type: 'category',
@@ -61,7 +62,7 @@
           },
           series: [
             {
-              name: 'propertion of age > 60',
+              name: 'proportion of age > 60',
               type: 'bar',
               itemStyle: {
                 normal: {
@@ -103,7 +104,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .echarts {
-    width: 350px;
+    width: 800px;
     height: 400px;
     margin: 0 auto;
   }

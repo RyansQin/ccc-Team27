@@ -61,7 +61,7 @@
           },
           series: [
             {
-              name: 'propertion of diabete',
+              name: 'proportion',
               type: 'bar',
               itemStyle: {
                 normal: {
