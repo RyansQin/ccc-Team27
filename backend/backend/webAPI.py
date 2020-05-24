@@ -101,7 +101,7 @@ def createDB(db):
         return badRequest('Fail to create the database')
 
 
-#- - - - - - - - - - - - - - - API for demo - - - - - - -  -  -  - - - - - - - - - - - - - - - - - - - - - - - - -- - -
+#- - - - - - - - - - - - - - - API for Twitter analysis- - - - - - -  -  -  - - - - - - - - - - - - - - - - - - - - - - - - -- - -
 
 # Return the total number of documents for the given database
 def getTotalRows(database):
@@ -163,17 +163,21 @@ def getView1(task, location):
     couchdb = selectServer()
     resp = {}
     try:
-        if task == 'covidRate':
-            covidRate = calCovidRate(couchdb, location)
-            resp['covidRate'] = covidRate
-        elif task == 'lockdown':
-            lockdown = [['clusterRes', getCluserRes(couchdb, location)],
-                        ['sentimentRes', getSentimentRes(couchdb, location)]]
-            resp['lockdownRank'] = lockdown
-        else:
-            curve = getCurve(couchdb, location)
-            resp['curve'] = curve
-        return jsonify(resp)
+        couchdb = selectServer()
+        database = couchdb.getDatabase('analysis_res')
+        return jsonify({task:database[location][task]})
+
+        # if task == 'covidRate':
+        #     covidRate = calCovidRate(couchdb, location)
+        #     resp['covidRate'] = covidRate
+        # elif task == 'lockdown':
+        #     lockdown = [['clusterRes', getCluserRes(couchdb, location)],
+        #                 ['sentimentRes', getSentimentRes(couchdb, location)]]
+        #     resp['lockdownRank'] = lockdown
+        # else:
+        #     curve = getCurve(couchdb, location)
+        #     resp['curve'] = curve
+        # return jsonify(resp)
     except:
         notFound('The view not exist')
 
