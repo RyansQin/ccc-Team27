@@ -35,20 +35,19 @@ def updateDoc(server, dbName, docID, content):
     doc = database.get(docID)
     for conKey in content:
         doc[conKey] = content[conKey]
-    if dbName == 'nlp_res':
+    if dbName == 'analysis_res':
         doc['version'] += 1
     database.save(doc)
 
 
 @app.errorhandler(400)
-def badRequest(errorMessage):
-    errorMessage = str(errorMessage)
-    return make_response({errorMessage:'Bad request'}, 400)
+def badRequest():
+    return make_response({'error':'Bad request'}, 400)
 
 @app.errorhandler(404)
-def notFound(errorMessage):
-    errorMessage = str(errorMessage)
-    return make_response({errorMessage: 'Not found'}, 404)
+def notFound():
+
+    return make_response({'error': 'Not found'}, 404)
 
 
 
@@ -72,13 +71,13 @@ def addTwitter():
         doc = data['doc']
         docID = data['docID']
     except:
-        return badRequest('Not a valid Json document')
+        return badRequest()
     try:
 
         couchdb = selectServer()
         database = couchdb.getDatabase(db)
     except:
-        return notFound('Required database not found')
+        return notFound()
     try:
         if docID is None:
             database.save(doc)
@@ -86,22 +85,28 @@ def addTwitter():
             database[docID] = doc
         return jsonify({'database':db, 'Status': "completed"})
     except:
-        return badRequest('Fail to add a new document')
+        return badRequest()
 
 
 
 # create a new database in the couchdb
-@app.route('/spider/<db>', methods=['GET'])
-def createDB(db):
+@app.route('/spider/dbSet', methods=['POST'])
+def createDB():
+    try:
+        data = json.loads(request.data)
+        dbName = data['dbName']
+    except:
+        return badRequest()
+
     try:
         couchdb = selectServer()
-        couchdb.couchdbServer.create(db)
-        return jsonify({'database': db, 'Status': "completed"})
+        couchdb.couchdbServer.create(dbName)
+        return jsonify({'database': dbName, 'Status': "completed"})
     except:
-        return badRequest('Fail to create the database')
+        return notFound()
 
 
-#- - - - - - - - - - - - - - - API for demo - - - - - - -  -  -  - - - - - - - - - - - - - - - - - - - - - - - - -- - -
+#- - - - - - - - - - - - - - - API for Twitter analysis- - - - - - -  -  -  - - - - - - - - - - - - - - - - - - - - - - - - -- - -
 
 # Return the total number of documents for the given database
 def getTotalRows(database):
@@ -149,7 +154,6 @@ def getCurve(server, location):
     res = []
     covid = []
     date = []
-
     for item in view:
         date.append(item.key)
         covid.append(item.value)
@@ -160,22 +164,30 @@ def getCurve(server, location):
 # The task can be: covidRate, curve, lockdown
 @app.route('/view/<task>/<location>', methods=['GET'])
 def getView1(task, location):
-    couchdb = selectServer()
-    resp = {}
     try:
+        couchdb = selectServer()
+        database = couchdb.getDatabase('analysis_res')
+        if task == 'lockdown':
+            return jsonify({'lockdownRank':database[location]['lockdownRank']})
+        else:
+            return jsonify({task: database[location][task]})
+    except:
+        notFound()
+
+@app.route('/view/result/<task>/<location>', methods=['GET'])
+def getViewResult(task, location):
+    couchdb = selectServer()
+    try:
+        resp = {}
         if task == 'covidRate':
             covidRate = calCovidRate(couchdb, location)
             resp['covidRate'] = covidRate
-        elif task == 'lockdown':
-            lockdown = [['clusterRes', getCluserRes(couchdb, location)],
-                        ['sentimentRes', getSentimentRes(couchdb, location)]]
-            resp['lockdownRank'] = lockdown
         else:
             curve = getCurve(couchdb, location)
             resp['curve'] = curve
         return jsonify(resp)
     except:
-        notFound('The view not exist')
+        return notFound()
 
 
 
@@ -186,26 +198,26 @@ def getView1(task, location):
 # lockdown: True/False, indicate whether it needs the most popular activities during lockdown
 # Curve: True/False, indicate whether it needs to calculate the curve
 # Retrun a json object
-@app.route('/view', methods=['POST'])
-def getView():
-    print('start')
-    couchdb = selectServer()
-    resp = {}
-    task = json.loads(request.data)['task']
-    covidRate = None
-    lockdown = None
-    curve = None
-    location = task['location']
-    if task['covid'] is True:
-        covidRate = calCovidRate(couchdb, location)
-    if task['lockdown'] is True:
-        lockdown = [['clusterRes', getCluserRes(couchdb, location)], ['sentimentRes', getSentimentRes(couchdb, location)]]
-    if task['curve'] is True:
-        curve = getCurve(couchdb, location)
-    resp['covidRate'] = covidRate
-    resp['lockdownRank'] = lockdown
-    resp['curve'] = curve
-    return jsonify(resp)
+# @app.route('/view', methods=['POST'])
+# def getView():
+#     print('start')
+#     couchdb = selectServer()
+#     resp = {}
+#     task = json.loads(request.data)['task']
+#     covidRate = None
+#     lockdown = None
+#     curve = None
+#     location = task['location']
+#     if task['covid'] is True:
+#         covidRate = calCovidRate(couchdb, location)
+#     if task['lockdown'] is True:
+#         lockdown = [['clusterRes', getCluserRes(couchdb, location)], ['sentimentRes', getSentimentRes(couchdb, location)]]
+#     if task['curve'] is True:
+#         curve = getCurve(couchdb, location)
+#     resp['covidRate'] = covidRate
+#     resp['lockdownRank'] = lockdown
+#     resp['curve'] = curve
+#     return jsonify(resp)
 
 
 
@@ -234,11 +246,7 @@ def getAgePercent(server, loc, mapLocation, age):
         res.append(locRes)
     return res
 
-@app.route('/test/<testArgs1>/<testArgs2>', methods=['GET'])
-def testGet(testArgs1, testArgs2):
-    print(testArgs1)
-    print(testArgs2)
-    return testArgs1+testArgs2
+
 
 #For the age_distribution data
 # return the proportion of people that are equal or larger then <age>
@@ -262,7 +270,7 @@ def getAgeData(age):
         resp.append(['age_distribution', getAgePercent(server, location, mapLocation, age)])
         return jsonify({'result': resp})
     except:
-        notFound('The required data not found')
+        notFound()
 
 
 # For other aurin data
@@ -283,7 +291,7 @@ def getAurinData1(task):
         server = selectServer()
         database = server.getDatabase('aurin_data')
     except:
-        notFound('The database is unavailable')
+        notFound()
     try:
         resp = []
         doc = database.get(task)
@@ -300,7 +308,7 @@ def getAurinData1(task):
         resp.append(temp)
         return jsonify({'result': resp})
     except:
-        notFound('The required data not found')
+        notFound()
 
 
 
@@ -337,7 +345,7 @@ def getAurinData():
         location = data['location']
         option = data['option']
     except:
-        return badRequest('Invalid request of aurin data')
+        return badRequest()
 
     try:
         server = selectServer()
@@ -364,7 +372,7 @@ def getAurinData():
                 resp.append(temp)
         return jsonify({'result':resp})
     except:
-        return notFound('Aurin data not found')
+        return notFound()
 
 
 
@@ -374,21 +382,16 @@ def getAurinData():
 # In the task, there are following keys:
 # database: indicates which database we want to access
 # Retrun a json object
-@app.route('/cluster/text', methods=['POST'])
-def getAllText():
-    try:
-        data = json.loads(request.data)
-        database = data['database']
-    except:
-        return badRequest('Invalid request')
+@app.route('/cluster/text/<dbName>', methods=['GET'])
+def getAllText(dbName):
 
     try:
         server = selectServer()
         resp = {}
-        resp[database] = getText(server, database)
+        resp[dbName] = getText(server, dbName)
         return jsonify(resp)
     except:
-        return notFound('Some databases not found')
+        return notFound()
 
 
 # Update the result on the couchdb
