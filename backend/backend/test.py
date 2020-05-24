@@ -63,7 +63,7 @@ def testUpdate():
 # @app.route('/view/<task>/<location>', methods=['GET'])
 # The task can be: covidRate, curve, lockdown
 def testGetView1():
-    url = 'http://172.26.131.203:8000/view/covidRate/nsw'
+    url = 'http://localhost:5000/view/lockdown/ade'
     r = requests.get(url, headers=headers)
     print((r.json()))
 

@@ -165,8 +165,10 @@ def getView1(task, location):
     try:
         couchdb = selectServer()
         database = couchdb.getDatabase('analysis_res')
-        return jsonify({task:database[location][task]})
-
+        if task == 'lockdown':
+            return jsonify({'lockdownRank':database[location]['lockdownRank']})
+        else:
+            return jsonify({task: database[location][task]})
         # if task == 'covidRate':
         #     covidRate = calCovidRate(couchdb, location)
         #     resp['covidRate'] = covidRate
