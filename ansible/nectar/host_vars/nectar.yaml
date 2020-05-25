@@ -1,0 +1,73 @@
+# Common vars
+availability_zone: melbourne-qh2-uom
+
+# Volume
+# volumes:
+#   - vol_name: demo-vol-1-1
+#     vol_size: 10
+#   - vol_name: demo-vol-1-2
+#     vol_size: 10
+#   - vol_name: demo-vol-2-1
+#     vol_size: 10
+#   - vol_name: demo-vol-2-2
+#     vol_size: 10
+# remember to attach these later
+
+# Security group
+security_groups:
+  - name: ssh
+    description: "Demo security group for SSH access"
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: http
+    description: "Demo security group for HTTP"
+    protocol: tcp
+    port_range_min: 80
+    port_range_max: 80
+    remote_ip_prefix: 0.0.0.0/0
+  - name: for_couchdb_4369
+    description: "security group for couchdb 4369"
+    protocol: tcp
+    port_range_min: 4369
+    port_range_max: 4369
+    remote_ip_prefix: 0.0.0.0/0
+  - name: for_couchdb_5984
+    description: "security group for couchdb 5984"
+    protocol: tcp
+    port_range_min: 5984
+    port_range_max: 5984
+    remote_ip_prefix: 0.0.0.0/0
+  - name: for_couchdb_9100
+    description: "security group for couchdb 9100-9200"
+    protocol: tcp
+    port_range_min: 9100
+    port_range_max: 9200
+    remote_ip_prefix: 0.0.0.0/0 
+  - name: for_nginx_proxy
+    description: "security group for nginx proxy"
+    protocol: tcp
+    port_range_min: 8000
+    port_range_max: 8000
+    remote_ip_prefix: 0.0.0.0/0
+  - name: for_nginx_web
+    description: "security group for nginx web"
+    protocol: tcp
+    port_range_min: 8080
+    port_range_max: 8080
+    remote_ip_prefix: 0.0.0.0/0
+
+
+
+# Instance
+instances:
+  - name: demo-ansible
+    # volumes: ['demo-vol-1-1', 'demo-vol-1-2']
+
+
+instance_image: 45225edb-66d8-4fd0-bf41-132a31a18166
+instance_key_name: COMP90024
+instance_flavor: uom.general.1c4g
+#remember change the flavor to 2c9g later
+

@@ -1,0 +1,28 @@
+- name: pull crawler image
+  become: yes
+  docker_image: 
+    name: rickylove/comp90024:crawler
+
+
+- name: run crawler container
+  become: yes
+  docker_container: 
+    name: crawler
+    image: rickylove/comp90024:crawler
+    detach: yes
+    state: started
+
+- name: pull nlp model
+  become: yes
+  docker_image: 
+    name: rickylove/comp90024:nlp
+
+- name: run nlp container
+  become: yes
+  docker_container: 
+    name: analysis
+    image: rickylove/comp90024:nlp
+    detach: yes
+    state: started
+
+

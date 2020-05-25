@@ -1,0 +1,50 @@
+- name: pull vue model
+  become: yes
+  docker_image: 
+    name: rickylove/comp90024:vue
+
+- name: run vue container
+  become: yes
+  docker_container: 
+    name: vue
+    image: rickylove/comp90024:vue
+    published_ports: 80:80
+    detach: yes
+    state: started
+
+- name: pull docker proxy image
+  become: yes
+  docker_image: 
+    name: rickylove/comp90024:webproxy
+
+- name: run proxy
+  become: yes
+  docker_container:
+    name: proxy
+    image: rickylove/comp90024:webproxy
+    state: started
+    published_ports: 8000:80
+
+- name: pull couchdb image
+  become: yes
+  docker_image: 
+    name: rickylove/comp90024:couchdb
+
+- name: run container
+  become: yes
+  docker_container: 
+    name: couchdb
+    image: rickylove/comp90024:couchdb
+    detach: yes
+    state: started
+    published_ports: 9100-9200:9100-9200, 5984:5984, 4369:4369
+    env: {'COUCHDB_USER': 'admin', 'COUCHDB_PASSWORD': 'password'}
+    volumes: /home/ubuntu/couchdb/data:/opt/couchdb/data
+
+- name: set cookies in vm.args
+  become: yes
+  command: sudo docker exec -it couchdb bash -c "echo \"-setcookie couchdb_cluster\" >> /opt/couchdb/etc/vm.args"
+
+- name: set name in vm.args
+  become: yes
+  command: sudo docker exec -it couchdb bash -c "echo \"-name couchdb@{{ ansible_eth0.ipv4.address }}\" >> /opt/couchdb/etc/vm.args"
