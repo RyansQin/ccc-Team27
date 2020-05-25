@@ -20,6 +20,14 @@
 
 ## NLP
 
+### Topic Clustring
+
+        Use `LDA (Latent Dirichlet Allocation)` for topic clustering. `LDA` uses the common features of the terms in the text to discover the topic of the text and does not require any background knowledge about the text.
+
+### Sentiment Analysis
+
+        We used the `TextBlob` library to perform sentiment analysis on the tweets we crawled. `TextBlob` is a python library which provides a simple API for NLP task.
+
 ## Database
 
 # Server Structure
