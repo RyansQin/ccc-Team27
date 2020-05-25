@@ -16,20 +16,20 @@ headers = {'content-type': 'application/json'}
 
 
 def updateResult(database, content, docID):
-    url = 'http://localhost:5000/cluster/update'
+    url = 'http://172.26.131.203:8000/cluster/update'
     payload = {'database': database, 'docID': docID, 'content': content}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
     print(data)
 
 def fetchText(database):
-    url = 'http://localhost:5000/cluster/text/' + database
+    url = 'http://172.26.131.203:8000/cluster/text/' + database
     r = requests.get(url, headers=headers)
     data = r.json()
     return data
 
 def getViewResult(database, task):
-    url = 'http://localhost:5000/view/result/' + task + '/' + database
+    url = 'http://172.26.131.203:8000/view/result/' + task + '/' + database
     r = requests.get(url, headers=headers)
     data = r.json()
     return data
