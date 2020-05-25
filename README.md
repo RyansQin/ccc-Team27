@@ -12,6 +12,7 @@
 ### [Set env and install docker](https://youtu.be/Ipe_uF78SP0)
 ### [Start all containers](https://youtu.be/FMRi0yO-_6c)
 ## Frontend Presentation
+### [Introduction to our project](https://youtu.be/-mSpXCkBScM)
 
 # Project Structure
 ## Frontend
