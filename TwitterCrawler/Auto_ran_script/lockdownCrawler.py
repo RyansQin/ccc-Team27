@@ -2,7 +2,7 @@
 
 @Author: XinKai Luo
 
-This file is for harvesting tweets for the capital city of states in Australia.
+This file is for harvesting tweets related to lockdown for the capital city of states in Australia.
 '''
 
 
