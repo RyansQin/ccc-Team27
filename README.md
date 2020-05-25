@@ -25,9 +25,10 @@
 # Server Structure
 ## Instance1
 ### IP: 172.26.131.203
-        Frontend
-        Proxy
-        Database
+        docker container:
+        1. vue: function-> frontend, ports-> 80:80
+        2. proxy: function-> proxy, ports-> 8000:80 
+        3. couchdb: function-> database, ports-> 4369:4369, 5984:5984, 9100-9200:9100-9200
 
 ### IP: 172.26.128.171
         Database
