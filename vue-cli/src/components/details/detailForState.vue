@@ -4,7 +4,7 @@
     <hr>
     <div class="tweet1">Tweets Collected</div>
     <br>
-    <div class="tweet2">the pie chart shows the number of tweets collected and the number of tweets that mention about COVID-19</div>
+    <div class="tweet2">The pie chart shows the number of tweets collected and the number of tweets that mention about COVID-19</div>
     <hr>
     <div class="col">
        <PieChart></PieChart>
@@ -12,7 +12,7 @@
     <hr>
     <div class="sentiment1">Sentiment Analysis</div>
     <br>
-    <div class="sentiment2">the pie chart shows the sentiment of people about COVID-19</div>
+    <div class="sentiment2">The pie chart shows the sentiment of people about COVID-19</div>
     <hr>
     <div class="col">
         <pieChartForSent></pieChartForSent>
@@ -32,7 +32,7 @@
     
   </div>
   <hr>
-    <div class='actions'>What people are concerned about during lockdown</div>
+    <div class='actions'>What are people concerned about during lockdown</div>
     <hr>
     <div class="dowhat">
     <font-awesome-icon class="A" :icon="getA()" size="6x" :style="{color:'#74c476'}" />

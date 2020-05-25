@@ -4,14 +4,14 @@
     <hr>
     <div class="age_distribution">Age Distribution</div>
     <br>
-    <div class="age_distribution1">the bar shows the proportion of people over 60 years old of eight regions in Australia. With increasing age, the probability of disease infection may also increase</div>
+    <div class="age_distribution1">The bar shows the proportion of people over 60 years old of eight regions in Australia. With increasing age, the probability of disease infection may also increase</div>
     <div class="age">
        <BarForAge></BarForAge>
     </div>
     <hr>
     <div class="population1">Population Density</div>
     <br>
-    <div class="population2">the bar shows the population density of eight regions in Australia. 
+    <div class="population2">The bar shows the population density of eight regions in Australia. 
 The greater the population, the higher the probability of disease transmission</div>
     <div class="population">
         <BarForPopulation></BarForPopulation>
@@ -19,14 +19,14 @@ The greater the population, the higher the probability of disease transmission</
     <hr>
     <div class="tourism1">Tourism</div>
     <br>
-    <div class="tourism2">the bar shows the total number of tourists in one year of eight regions in Australia. The development of tourism represents the increase of foreign population</div>
+    <div class="tourism2">The bar shows the total number of tourists in one year of eight regions in Australia. The development of tourism represents the increase of foreign population</div>
     <div class="tourism">
         <BarForTourism></BarForTourism>
     </div>
     <hr>
     <div class="disease1">Diseases</div>
     <br>
-    <div class="disease2">these five bars shows the incidence of five chronic diseases of eight regions in Australia.</div>
+    <div class="disease2">These five bars shows the incidence of five chronic diseases of eight regions in Australia.</div>
     <hr>
     <div class="row">
         

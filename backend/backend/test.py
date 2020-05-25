@@ -1,3 +1,13 @@
+'''
+
+@Author: Tai Qin
+
+This file provide some test case for the web API.
+'''
+
+
+
+
 import requests
 
 url = 'http://localhost:5000/view/nsw'
@@ -32,21 +42,23 @@ def testAddTweet(database, content, docID):
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     print(r.json())
 
-def testFetchText():
-    url = 'http://172.26.131.203:8000/cluster/text'
-    payload= {'database': 'lockdown_ade'}
-    r = requests.post(url, data=json.dumps(payload), headers=headers)
+def testFetchText(database):
+    url = 'http://172.26.131.203:8000/cluster/text/' + database
+    r = requests.get(url,  headers=headers)
     data = r.json()
     print(len(data['lockdown_ade']))
     print(data)
 
-def testCreateDatabase():
-    url = 'http://172.26.131.203:8000/spider/aurin_data'
+def testCreateDatabase(database):
+    url = 'http://172.26.131.203:8000/spider'
+    payload = {'dbName': database}
     r = requests.get(url, headers=headers)
     print(r.json())
 
+
+
 def testUpdate():
-    url = 'http://localhost:5000/cluster/update'
+    url = 'http://172.26.131.203:8000/cluster/update'
     payload = {'database': 'test', 'docID': '5ae49d113d4ac0799ae6dfa1b80074cd', 'content': {'content': 'This is the newest test'}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
@@ -63,7 +75,7 @@ def testUpdate():
 # @app.route('/view/<task>/<location>', methods=['GET'])
 # The task can be: covidRate, curve, lockdown
 def testGetView1():
-    url = 'http://localhost:5000/view/lockdown/ade'
+    url = 'http://172.26.131.203:8000/view/lockdown/ade'
     r = requests.get(url, headers=headers)
     print((r.json()))
 
@@ -71,7 +83,7 @@ def testGetView1():
 # For the age_distribution data
 # return the proportion of people that are equal or larger then <age>
 def testGetAgeData():
-    url = 'http://localhost:5000/aurin/ageDistribution/60'
+    url = 'http://172.26.131.203:8000/aurin/ageDistribution/60'
     r = requests.get(url, headers=headers)
     print((r.json()))
 
@@ -80,7 +92,7 @@ def testGetAgeData():
 # For other aurin data
 # The task field can be: disease, population_density, tourism
 def testGetAurinData1():
-    url = 'http://localhost:5000/aurin/disease'
+    url = 'http://172.26.131.203:8000/aurin/disease'
     r = requests.get(url, headers=headers)
     print((r.json()))
 

@@ -1,3 +1,11 @@
+'''
+@Author; Tai Qin
+
+This file contains the API that the client uses to access resource.
+
+'''
+
+
 from flask import Flask, jsonify, make_response
 from flask import request
 import couchdbBalancer as ba
@@ -12,7 +20,8 @@ balancer = ba.couchdbBalancer()
 
 
 #- - - - - - - - -- - - - - - Common API- - - - - - - - - - - -- - - -- - - - - - - -- - - - - - - - - - - - - - - - - -
-# Select a server to deal with the request
+
+# Select a couchdb node to access resource
 def selectServer():
     handlers = []
     for s in servers:
@@ -39,11 +48,12 @@ def updateDoc(server, dbName, docID, content):
         doc['version'] += 1
     database.save(doc)
 
-
+# Handle the bad request error
 @app.errorhandler(400)
 def badRequest():
     return make_response({'error':'Bad request'}, 400)
 
+#Handle the not found error
 @app.errorhandler(404)
 def notFound():
 
@@ -89,7 +99,7 @@ def addTwitter():
 
 
 
-# create a new database in the couchdb
+# create a new database in the couchdb, the payload is like {'dbName': <dbName>}
 @app.route('/spider/dbSet', methods=['POST'])
 def createDB():
     try:
@@ -131,22 +141,22 @@ def calCovidRate(server, location):
     rate['covid'] = res
     return rate
 
-# For the given location, return the most popular activities during lockdown
-def getCluserRes(server, location):
-    dbName = 'nlp_res'
-    docID = location
-    database = server.getDatabase(dbName)
-    doc = database.get(docID)
-    return doc['clusterRes']
-
-def getSentimentRes(server, location):
-    dbName = 'nlp_res'
-    docID = location
-    database = server.getDatabase(dbName)
-    doc = database.get(docID)
-    return doc['sentimentRes']
-
+# # For the given location, return the most popular activities during lockdown
+# def getCluserRes(server, location):
+#     dbName = 'nlp_res'
+#     docID = location
+#     database = server.getDatabase(dbName)
+#     doc = database.get(docID)
+#     return doc['clusterRes']
 #
+# def getSentimentRes(server, location):
+#     dbName = 'nlp_res'
+#     docID = location
+#     database = server.getDatabase(dbName)
+#     doc = database.get(docID)
+#     return doc['sentimentRes']
+
+# Return the number of tweets that related to COVID-19 by date
 def getCurve(server, location):
     dbName = 'tweet_'+location
     database = server.getDatabase(dbName)
@@ -162,6 +172,9 @@ def getCurve(server, location):
     return res
 
 # The task can be: covidRate, curve, lockdown
+# location can be: nsw, ade, vic, que, nor, per, tas, can
+# The client use this API to get the analysis result of tweets
+# In order to reduce the response time, it will not return the latest result
 @app.route('/view/<task>/<location>', methods=['GET'])
 def getView1(task, location):
     try:
@@ -174,6 +187,11 @@ def getView1(task, location):
     except:
         notFound()
 
+
+# The task can be: covidRate, curve, lockdown
+# location can be: nsw, ade, vic, que, nor, per, tas, can
+# This API is to get the latest analysis result
+# The twiiter analysis module use it to update the result periodically
 @app.route('/view/result/<task>/<location>', methods=['GET'])
 def getViewResult(task, location):
     couchdb = selectServer()
@@ -190,6 +208,19 @@ def getViewResult(task, location):
         return notFound()
 
 
+# This API is designed for the cluster/sentiment analysis module
+# For the given database, it will return the content in text filed of all documents
+# Retrun a json object
+@app.route('/cluster/text/<dbName>', methods=['GET'])
+def getAllText(dbName):
+
+    try:
+        server = selectServer()
+        resp = {}
+        resp[dbName] = getText(server, dbName)
+        return jsonify(resp)
+    except:
+        return notFound()
 
 # The http request contains a json object like {task:{task dictionary}}
 # In the task, there are following keys:
@@ -225,6 +256,7 @@ def getViewResult(task, location):
 #- - - - - - - - - - - - - - - - - - - - - API for aurin- - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - #
 
 
+#For the given location and age, return the proportion of people that are not less than the given age
 def getAgePercent(server, loc, mapLocation, age):
     database = server.getDatabase('aurin_data')
     doc = database['age_distribution']
@@ -248,7 +280,7 @@ def getAgePercent(server, loc, mapLocation, age):
 
 
 
-#For the age_distribution data
+# For the age_distribution data
 # return the proportion of people that are equal or larger then <age>
 @app.route('/aurin/ageDistribution/<age>', methods=['GET'])
 def getAgeData(age):
@@ -317,104 +349,6 @@ def getAurinData1(task):
 
 
 
-# Deal with the request of Aurin data
-# The http request contains following keys
-# task: a list that the data we want to access, ['age_distribution', 'population_density', 'tourism', 'disease']
-# location: the location we want to search, ['can', 'nsw', 'vic', 'ade', 'que', 'per', 'nor', 'tas']
-# option: used by the age_distribution, if it is not in the task field, option = Mone, else contain following keys
-# option: {'age1': age1, 'age2': age2}
-# age1, age2: the interval of age that you want to access
-# if age1 is None, return proportion of people that is younger than age2
-# if age2 is None, return proportion of people that is older than age1
-# if both of them are not None, return proportion of people between age1 and age2
-# For each task, returns a dictionary that contains data of the given location
-@app.route('/aurin', methods=['POST'])
-def getAurinData():
-    mapLocation = {}
-    mapLocation['can'] = 'act'
-    mapLocation['nor'] = 'nt'
-    mapLocation['nsw'] = 'nsw'
-    mapLocation['per'] = 'wa'
-    mapLocation['ade'] = 'sa'
-    mapLocation['tas'] = 'tas'
-    mapLocation['vic'] = 'vic'
-    mapLocation['que'] = 'qld'
-    try:
-        data = json.loads(request.data)
-        task = data['task']
-        location = data['location']
-        option = data['option']
-    except:
-        return badRequest()
-
-    try:
-        server = selectServer()
-        database = server.getDatabase('aurin_data')
-        resp = []
-        for t in task:
-            if t=='age_distribution':
-                resp.append([t, getAgePercent(server, location, mapLocation, option['age1'], option['age2'])])
-
-
-            else:
-                doc = database.get(t)
-                temp = []
-                temp.append(t)
-                for loc in location:
-                    temp1 = []
-                    temp1.append(loc)
-                    if t == 'disease':
-                        temp1.append(doc[loc])
-                    else:
-                        temp1.append(doc[mapLocation[loc]])
-                    temp.append(temp1)
-
-                resp.append(temp)
-        return jsonify({'result':resp})
-    except:
-        return notFound()
-
-
-
-#- - - - - - - - - - - - - -- - - - - - - -API for machine learning- - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-# The http request contains a json object like {database:database}
-# In the task, there are following keys:
-# database: indicates which database we want to access
-# Retrun a json object
-@app.route('/cluster/text/<dbName>', methods=['GET'])
-def getAllText(dbName):
-
-    try:
-        server = selectServer()
-        resp = {}
-        resp[dbName] = getText(server, dbName)
-        return jsonify(resp)
-    except:
-        return notFound()
-
-
-# Update the result on the couchdb
-# The data field of the http request contains a dictionary. including the following key
-# database: specify the database that needs to be updated
-# docID: specify the document that needs to be updated
-# content: a dictionary, specify the key and value that need to be updated
-@app.route('/cluster/update', methods=['POST'])
-def updateResult():
-    try:
-        data = json.loads(request.data)
-        dbName = data['database']
-        docID = data['docID']
-        content = data['content']
-    except:
-        return badRequest('Invalid update request')
-
-    try:
-        server = selectServer()
-        updateDoc(server, dbName, docID, content)
-    except:
-        return notFound('Database is unavailable or not exist, fail to update the document')
-    return jsonify({'status': 'complete update'})
 
 
 if __name__ == '__main__':

@@ -3,7 +3,7 @@
 ### Shuyu Yuan - 985441
 ### Tai Qin - 1005309
 ### Xinkai Luo - 
-### Yuting Cai - 
+### Yuting Cai - 982332
 ### Renjie Zhong - 961201
 
 # Vedio Links:
@@ -13,6 +13,7 @@
 
 # Project Structure
 ## Frontend
+### In this project, vuejs is chose to be the front end of our application. Vue is a single page application that enables partial refresh of the page without requesting all data and dom every time you jump to the page, which greatly improve the access speed and the user experience. Different components represents differenty functionality, which makes the developer design more easily. And its third-party ui library, like bootstrap, font-awesome-icon, etc., saves a lot of development time. As for the data, central storage is used to manage the global data of different part.
 
 ## Backend
 
