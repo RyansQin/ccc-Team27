@@ -1,10 +1,10 @@
 # CCC Group27
 ## Team members:
 ### Shuyu Yuan - 985441
-### Tai Qin - 
+### Tai Qin - 1005309
 ### Xinkai Luo - 
 ### Yuting Cai - 
-### Renjie Zhong - 
+### Renjie Zhong - 961201
 
 # Vedio Links:
 ## Ansible
@@ -30,17 +30,23 @@
         2. proxy: function-> proxy, ports-> 8000:80 
         3. couchdb: function-> database, ports-> 4369:4369, 5984:5984, 9100-9200:9100-9200
 
+## Instance2
 ### IP: 172.26.128.171
-        Database
-        Webserver
+        docker container:
+        1. flask: function-> backend, ports-> 8080:5000
+        2. couchdb: function-> database, ports-> 4369:4369, 5984:5984, 9100-9200:9100-9200
         
+## Instance3
 ### IP: 172.26.130.16
-        Database
-        Webserver
+        docker container:
+        1. flask: function-> backend, ports-> 8080:5000
+        2. couchdb: function-> database, ports-> 4369:4369, 5984:5984, 9100-9200:9100-9200
         
+## Instance4
 ### IP: 172.26.133.41
-        Crawler
-        NLP
+        docker container:
+        1. crawler: function-> crawler
+        2. nlp: function-> nlp
 
 
 
