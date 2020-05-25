@@ -22,6 +22,25 @@
 
 ## Database
 
+# Server Structure
+## Instance1
+### IP: 172.26.131.203
+        Frontend
+        Proxy
+        Database
+
+### IP: 172.26.128.171
+        Database
+        Webserver
+        
+### IP: 172.26.130.16
+        Database
+        Webserver
+        
+### IP: 172.26.133.41
+        Crawler
+        NLP
+
 
 
 # Vuejs:
