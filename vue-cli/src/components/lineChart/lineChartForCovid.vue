@@ -41,7 +41,7 @@
         that.echarts = echarts
         that.option =  {
           title: {
-            text: 'the number of infections',
+            text: 'The number of infections',
             left: 'center'
           },
           tooltip: {

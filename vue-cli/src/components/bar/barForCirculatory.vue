@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text: 'circulatory system diseases',
+              text: 'Circulatory system diseases',
               left: 'center',
                          textStyle:{
                   color:'#08519c'

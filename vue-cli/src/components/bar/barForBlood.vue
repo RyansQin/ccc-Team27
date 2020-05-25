@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text: 'high blood cholesteroll',
+              text: 'High blood cholesterol',
               left: 'center',
                          textStyle:{
                   color:'#800026'
