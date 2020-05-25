@@ -7,8 +7,10 @@
 ### Renjie Zhong - 961201
 
 # Vedio Links:
-## Ansible
-
+## Ansible: In the following videos, we selected a test instance to show the work of Ansible playbooks. As I have only one test instances, with no volume permitted, relevant roles in playbook was commented. 
+### [Launch instances] (https://youtu.be/6jYorXfqVU)
+### [Set env and install docker] (https://youtu.be/2RuLOBr60Ec)
+### [Start all containers] (https://youtu.be/8VOqvmWJgl0)
 ## Frontend Presentation
 
 # Project Structure
