@@ -2,7 +2,7 @@
 ## Team members:
 ### Shuyu Yuan - 985441
 ### Tai Qin - 1005309
-### Xinkai Luo - 
+### Xinkai Luo - 961625
 ### Yuting Cai - 982332
 ### Renjie Zhong - 961201
 
@@ -13,12 +13,22 @@
 
 # Project Structure
 ## Frontend
+### In this project, vuejs is chose to be the front end of our application. Vue is a single page application that enables partial refresh of the page without requesting all data and dom every time you jump to the page, which greatly improve the access speed and the user experience. Different components represents differenty functionality, which makes the developer design more easily. And its third-party ui library, like bootstrap, font-awesome-icon, etc., saves a lot of development time. As for the data, central storage is used to manage the global data of different part.
 
 ## Backend
 
-## Spider
+## Twitter harvester
+### In this project, the Standard Search API provided by Twitter Developer Account is used to collect tweets data. We have collected two kinds of tweets text; each kind is classified by the state. The first kind is the exact tweet from a certain state while the other kind is any tweets that contain the keywords like ‘lockdown’, ‘stay home’, etc. In order to get the exact tweet from a certain state, we set the ‘geocode’ parameter in search API to specify the latitude and longitude of the most populated city in that state. There are two crawler programs that can automatically collect Twitter data without any omissions and duplications once opened.
 
 ## NLP
+
+### Topic Clustring
+
+Use `LDA (Latent Dirichlet Allocation)` for topic clustering. `LDA` uses the common features of the terms in the text to discover the topic of the text and does not require any background knowledge about the text. `LDA` will generate a topic for each term in each document. From the perspective of document clustering, `LDA` does not have a uniform clustering label for documents, but each term has a clustering label, and that is the topic. The final output of LDA is the topics, the terms of each topic and the weight of each term. The number of topics and the number of terms in each topic can be customized.
+
+### Sentiment Analysis
+
+We used the `TextBlob` library to perform sentiment analysis on the tweets we crawled. `TextBlob` is a python library which provides a simple API for NLP task. We used its sentiment analysis feature to analyze whether Australian tweets were positive or negative during lockdown. The result returned by `TextBlob` is a tuple, which includes polarity, subjectivity, and assessment. We can judge the emotion of the text by analyzing the obtained polarity.
 
 ## Database
 
