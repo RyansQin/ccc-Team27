@@ -2,14 +2,25 @@
     <div>
         <Header></Header>    
     <hr>
-    <div class="row">
+    <div class="tweet1">Tweets Collected</div>
+    <br>
+    <div class="tweet2">The pie chart shows the number of tweets collected and the number of tweets that mention about COVID-19</div>
+    <hr>
     <div class="col">
        <PieChart></PieChart>
     </div>
+    <hr>
+    <div class="sentiment1">Sentiment Analysis</div>
+    <br>
+    <div class="sentiment2">The pie chart shows the sentiment of people about COVID-19</div>
+    <hr>
     <div class="col">
         <pieChartForSent></pieChartForSent>
     </div>
-    </div>
+  
+    <hr>
+    <div class="title">Comparison between infection number and the number of concerned tweets</div>
+    <hr>
     <div class="row">
     <div class="col">
        <LineChart></LineChart>
@@ -21,6 +32,8 @@
     
   </div>
   <hr>
+    <div class='actions'>What are people concerned about during lockdown</div>
+    <hr>
     <div class="dowhat">
     <font-awesome-icon class="A" :icon="getA()" size="6x" :style="{color:'#74c476'}" />
     <div class="A"></div>
@@ -136,5 +149,30 @@ export default {
 }
 .A{
     width: 50px;
+}
+.title{
+    text-align: center;
+    font-size:3ch;
+    
+}
+.tweet1{
+    font-size: 3ch;
+}
+
+.tweet2{
+    font-size: 1.5ch;
+}
+
+.sentiment1{
+    font-size: 3ch;
+}
+
+.sentiment2{
+    font-size: 1.5ch;
+}
+
+.actions{
+    font-size: 3ch;
+    text-align: center;
 }
 </style>

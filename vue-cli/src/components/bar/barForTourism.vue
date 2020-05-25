@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text:'tourism',
+              text:'Total number of tourists in one year',
               left:'center',
               textStyle:{
                   color:'#74c476'
@@ -103,7 +103,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .echarts {
-    width: 350px;
+    width: 800px;
     height: 400px;
     margin: 0 auto;
   }

@@ -2,19 +2,34 @@
     <div>
         <Header></Header>    
     <hr>
-    <div class="row">
-    <div class="col-sm">
+    <div class="age_distribution">Age Distribution</div>
+    <br>
+    <div class="age_distribution1">The bar shows the proportion of people over 60 years old of eight regions in Australia. With increasing age, the probability of disease infection may also increase</div>
+    <div class="age">
        <BarForAge></BarForAge>
     </div>
-    <div class="col-sm">
+    <hr>
+    <div class="population1">Population Density</div>
+    <br>
+    <div class="population2">The bar shows the population density of eight regions in Australia. 
+The greater the population, the higher the probability of disease transmission</div>
+    <div class="population">
         <BarForPopulation></BarForPopulation>
     </div>
-    <div class="col-sm">
+    <hr>
+    <div class="tourism1">Tourism</div>
+    <br>
+    <div class="tourism2">The bar shows the total number of tourists in one year of eight regions in Australia. The development of tourism represents the increase of foreign population</div>
+    <div class="tourism">
         <BarForTourism></BarForTourism>
     </div>
-    </div>
+    <hr>
+    <div class="disease1">Diseases</div>
+    <br>
+    <div class="disease2">These five bars shows the incidence of five chronic diseases of eight regions in Australia.</div>
     <hr>
     <div class="row">
+        
     <div class="col">
        <BarForAsthma></BarForAsthma>
     </div>
@@ -62,12 +77,52 @@ export default {
     },
 
     mounted: () => {
-      feather.replace();
     },
 }
 </script>
 <style>
 .dowhat{
     text-align: center;
+}
+.title{
+    text-align: center;
+    font-size:4ch;
+    
+}
+.age_distribution{
+    font-size: 3ch;
+    color: #4292c6;
+}
+.age_distribution1{
+    
+    color: #4292c6;
+    font-size: 1.5ch;
+}
+
+.population1{
+    font-size: 3ch;
+    color: #807dba;
+}
+.population2{
+    font-size: 1.5ch;
+    color: #807dba
+}
+.tourism1{
+    font-size: 3ch;
+    color: #74c476
+}
+.tourism2{
+    font-size: 1.5ch;
+    color: #74c476
+}
+
+.disease1{
+    font-size: 3ch;
+    
+}
+
+.disease2{
+    font-size: 1.5ch;
+    
 }
 </style>

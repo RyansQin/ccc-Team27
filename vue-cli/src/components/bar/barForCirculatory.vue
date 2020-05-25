@@ -45,7 +45,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-              text: 'Circulatory',
+              text: 'Circulatory system diseases',
               left: 'center',
                          textStyle:{
                   color:'#08519c'
@@ -61,7 +61,7 @@
           },
           series: [
             {
-              name: 'propertion of circulatory',
+              name: 'proportion',
               type: 'bar',
               itemStyle: {
                 normal: {

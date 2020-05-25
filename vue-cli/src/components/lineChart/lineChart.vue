@@ -40,7 +40,8 @@
         that.echarts = echarts
         that.option =  {
           title: {
-            text: ''
+            text: 'The number of tweets including COVID-19',
+            left: 'center'
           },
           tooltip: {
             trigger: 'axis'
@@ -96,7 +97,7 @@
         //   ],
           series: [
             {
-              name: 'relative tweets',
+              
               type: 'line',
               smooth: false,
          

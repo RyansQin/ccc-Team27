@@ -41,7 +41,7 @@
         that.echarts = echarts
         that.bar = {
           title:{
-            text:'infections',
+            text:'Infections',
             left: 'center',
             textStyle:{
               color:'#fc9272'
