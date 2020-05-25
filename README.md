@@ -1,3 +1,29 @@
+# CCC Group27
+## Team members:
+### Shuyu Yuan - 985441
+### Tai Qin - 
+### Xinkai Luo - 
+### Yuting Cai - 
+### Renjie Zhong - 
+
+# Vedio Links:
+## Ansible
+
+## Frontend Presentation
+
+# Project Structure
+## Frontend
+
+## Backend
+
+## Spider
+
+## NLP
+
+## Database
+
+
+
 # Vuejs:
 
 ## npm install
