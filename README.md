@@ -23,11 +23,11 @@
 
 ### Topic Clustring
 
-        Use `LDA (Latent Dirichlet Allocation)` for topic clustering. `LDA` uses the common features of the terms in the text to discover the topic of the text and does not require any background knowledge about the text.
+Use `LDA (Latent Dirichlet Allocation)` for topic clustering. `LDA` uses the common features of the terms in the text to discover the topic of the text and does not require any background knowledge about the text. `LDA` will generate a topic for each term in each document. From the perspective of document clustering, `LDA` does not have a uniform clustering label for documents, but each term has a clustering label, and that is the topic. The final output of LDA is the topics, the terms of each topic and the weight of each term. The number of topics and the number of terms in each topic can be customized.
 
 ### Sentiment Analysis
 
-        We used the `TextBlob` library to perform sentiment analysis on the tweets we crawled. `TextBlob` is a python library which provides a simple API for NLP task.
+We used the `TextBlob` library to perform sentiment analysis on the tweets we crawled. `TextBlob` is a python library which provides a simple API for NLP task. We used its sentiment analysis feature to analyze whether Australian tweets were positive or negative during lockdown. The result returned by `TextBlob` is a tuple, which includes polarity, subjectivity, and assessment. We can judge the emotion of the text by analyzing the obtained polarity.
 
 ## Database
 
