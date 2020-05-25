@@ -1,3 +1,13 @@
+'''
+
+@Author: XinKai Luo
+
+This file is for harvesting tweets for the capital city of states in Australia.
+'''
+
+
+
+
 import tweepy
 import requests
 import re
@@ -27,6 +37,7 @@ f.close()
 
 first = True
 
+# Add a document to the given database
 def addTweet(location, content, docID=None):
     url = 'http://172.26.131.203:8000/spider'
     database = 'lockdown_'+ location

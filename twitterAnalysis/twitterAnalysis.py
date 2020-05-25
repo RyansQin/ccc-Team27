@@ -1,3 +1,11 @@
+'''
+
+@Author: XinKai Luo, Tai Qin
+
+This file is for updating twiiter analysis result.
+'''
+
+
 from textblob import TextBlob
 import requests
 import json
@@ -14,7 +22,8 @@ db_list = ['lockdown_ade','lockdown_can','lockdown_nor','lockdown_nsw','lockdown
 headers = {'content-type': 'application/json'}
 
 
-
+# Send a http requset with the POST method
+# update specific document in the given database
 def updateResult(database, content, docID):
     url = 'http://172.26.131.203:8000/cluster/update'
     payload = {'database': database, 'docID': docID, 'content': content}
@@ -22,27 +31,32 @@ def updateResult(database, content, docID):
     data = r.json()
     print(data)
 
+
+# For the given database, get the content of test field of all documents
 def fetchText(database):
     url = 'http://172.26.131.203:8000/cluster/text/' + database
     r = requests.get(url, headers=headers)
     data = r.json()
     return data
 
+# Access the latest result of the views from CouchDB
 def getViewResult(database, task):
     url = 'http://172.26.131.203:8000/view/result/' + task + '/' + database
     r = requests.get(url, headers=headers)
     data = r.json()
     return data
 
-
+# For the given database, fetch all text and use the LDA model to analysis what people concern during lockdown
 def cluestering(db_name):
     print("Start analyze on the database: ", db_name)
     result = []
 
+    # fetch text
     print('[===== Get Twitter Data =====]')
     data = fetchText(db_name)
     doc_set = data[db_name]
 
+    # Delete useless words, including stop words and some words we believe are useless
     print('[===== Delete Stop words =====]')
     tokenizer = RegexpTokenizer(r'\w+')
     en_stop = get_stop_words('en')
@@ -77,6 +91,8 @@ def cluestering(db_name):
     t_start = time.time()
     corpus_tfidf = models.TfidfModel(corpus)[corpus]
     # print('Time used is %.3f sec.' % (time.time() - t_start))
+
+    # create the LDA model, the top 5 topic will be return in a list
 
     print('[===== Create LDA model =====]')
     num_topics = 5
@@ -124,6 +140,8 @@ def cluestering(db_name):
     # updateResult('nlp_res', {'clusterRes': result}, name)
 
 
+# For the given database, get all text and do sentiment analysis.
+# The proportion of positive, negetive and neutral attitude will be returned
 def sentimentAnalyze(database):
     sentiment_results = {}
     print("Start analyze on the database: ", database)
@@ -131,6 +149,8 @@ def sentimentAnalyze(database):
     positive_count = 0
     negative_count = 0
     neutral_count = 0
+
+    # fetch text
     textData = fetchText(database)
     textSet = textData[database]
 
@@ -158,6 +178,8 @@ def sentimentAnalyze(database):
     res.append(sentiment_results)
     return res
 
+
+# update the result of clustering and sentiment analysis
 def updateNLPResult(database):
     res1 = cluestering(database)
     res2 = sentimentAnalyze(database)
@@ -167,6 +189,8 @@ def updateNLPResult(database):
     name = database.split('_')[1]
     updateResult('analysis_res', {'lockdownRank':res}, name)
 
+
+# update the result of mapreduce function that we defined in the couchdb
 def updateView(location, task):
     newestData = getViewResult(location, task)
     updateResult('analysis_res', newestData, location)
@@ -175,9 +199,19 @@ locLst = ['ade', 'nsw', 'per', 'nor', 'can', 'tas', 'vic', 'que']
 task = ['covidRate', 'curve']
 
 
+# update all result of twitter analysis
+curTask = 'NLP Task'
+curDatabae = 'ade'
+try:
+    for db in db_list:
+        curDatabae = db
+        updateNLPResult(db)
+    curTask = 'covidRate'
+    for t in task:
+        curTask = t
+        for loc in locLst:
+            curDatabae = loc
+            updateView(loc, t)
+except:
+    error_str = 'error occurs while updating ' + curTask + ' in ' + curDatabae
 
-for db in db_list:
-    updateNLPResult(db)
-for t in task:
-    for loc in locLst:
-        updateView(loc, t)
