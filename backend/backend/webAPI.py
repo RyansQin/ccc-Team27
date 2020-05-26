@@ -50,14 +50,21 @@ def updateDoc(server, dbName, docID, content):
 
 # Handle the bad request error
 @app.errorhandler(400)
-def badRequest():
-    return make_response({'error':'Bad request'}, 400)
+def badRequest(error):
+    try:
+        error = str(error)
+        return make_response({error:'Bad request'}, 400)
+    except:
+        return make_response({'error':'Bad request'}, 400)
 
 #Handle the not found error
 @app.errorhandler(404)
-def notFound():
-
-    return make_response({'error': 'Not found'}, 404)
+def notFound(error):
+    try:
+        error = str(error)
+        return make_response({error:'Bad request'}, 404)
+    except:
+        return make_response({'error':'Bad request'}, 404)
 
 
 
@@ -81,13 +88,13 @@ def addTwitter():
         doc = data['doc']
         docID = data['docID']
     except:
-        return badRequest()
+        return badRequest('Invalid payload in request')
     try:
 
         couchdb = selectServer()
         database = couchdb.getDatabase(db)
     except:
-        return notFound()
+        return notFound('No available couchdb nodes')
     try:
         if docID is None:
             database.save(doc)
@@ -95,7 +102,7 @@ def addTwitter():
             database[docID] = doc
         return jsonify({'database':db, 'Status': "completed"})
     except:
-        return badRequest()
+        return notFound('Fail to add new documents')
 
 
 
@@ -106,14 +113,14 @@ def createDB():
         data = json.loads(request.data)
         dbName = data['dbName']
     except:
-        return badRequest()
+        return badRequest('Invalid payload in request')
 
     try:
         couchdb = selectServer()
         couchdb.couchdbServer.create(dbName)
         return jsonify({'database': dbName, 'Status': "completed"})
     except:
-        return notFound()
+        return notFound('Unable to create new database')
 
 
 #- - - - - - - - - - - - - - - API for Twitter analysis- - - - - - -  -  -  - - - - - - - - - - - - - - - - - - - - - - - - -- - -
@@ -185,7 +192,7 @@ def getView1(task, location):
         else:
             return jsonify({task: database[location][task]})
     except:
-        notFound()
+        notFound('Unable to get the required view')
 
 
 # The task can be: covidRate, curve, lockdown
@@ -205,13 +212,30 @@ def getViewResult(task, location):
             resp['curve'] = curve
         return jsonify(resp)
     except:
-        return notFound()
+        return notFound('Unable to get the latest view')
+
+
+@app.route('/analysis/result', methods=['POST'])
+def updateResult():
+    try:
+        data = json.loads(request.data)
+        doc = data['content']
+        dbName = data['database']
+        docID = data['docID']
+    except:
+        badRequest('Invalid payload in the request')
+    try:
+        server = selectServer()
+        updateDoc(server, dbName, docID, doc)
+        return jsonify({'database': dbName, 'status':'completed'})
+    except:
+        notFound('Unable to update result')
 
 
 # This API is designed for the cluster/sentiment analysis module
 # For the given database, it will return the content in text filed of all documents
 # Retrun a json object
-@app.route('/cluster/text/<dbName>', methods=['GET'])
+@app.route('/analysis/text/<dbName>', methods=['GET'])
 def getAllText(dbName):
 
     try:
@@ -220,7 +244,7 @@ def getAllText(dbName):
         resp[dbName] = getText(server, dbName)
         return jsonify(resp)
     except:
-        return notFound()
+        return notFound('Unable to get all text')
 
 # The http request contains a json object like {task:{task dictionary}}
 # In the task, there are following keys:
@@ -302,7 +326,7 @@ def getAgeData(age):
         resp.append(['age_distribution', getAgePercent(server, location, mapLocation, age)])
         return jsonify({'result': resp})
     except:
-        notFound()
+        notFound('Unable to find the required age data')
 
 
 # For other aurin data
@@ -323,7 +347,7 @@ def getAurinData1(task):
         server = selectServer()
         database = server.getDatabase('aurin_data')
     except:
-        notFound()
+        notFound('No couchdb node available')
     try:
         resp = []
         doc = database.get(task)
@@ -340,7 +364,7 @@ def getAurinData1(task):
         resp.append(temp)
         return jsonify({'result': resp})
     except:
-        notFound()
+        notFound('Unable to get the required AURIN data')
 
 
 

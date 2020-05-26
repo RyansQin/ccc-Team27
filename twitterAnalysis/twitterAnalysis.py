@@ -25,7 +25,7 @@ headers = {'content-type': 'application/json'}
 # Send a http requset with the POST method
 # update specific document in the given database
 def updateResult(database, content, docID):
-    url = 'http://172.26.131.203:8000/cluster/update'
+    url = 'http://172.26.131.203:8000/analysis/result'
     payload = {'database': database, 'docID': docID, 'content': content}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
@@ -34,7 +34,7 @@ def updateResult(database, content, docID):
 
 # For the given database, get the content of test field of all documents
 def fetchText(database):
-    url = 'http://172.26.131.203:8000/cluster/text/' + database
+    url = 'http://172.26.131.203:8000/analysis/text/' + database
     r = requests.get(url, headers=headers)
     data = r.json()
     return data
@@ -187,6 +187,7 @@ def updateNLPResult(database):
     res.append(res1)
     res.append(res2)
     name = database.split('_')[1]
+    print(res)
     updateResult('analysis_res', {'lockdownRank':res}, name)
 
 
@@ -214,4 +215,5 @@ try:
             updateView(loc, t)
 except:
     error_str = 'error occurs while updating ' + curTask + ' in ' + curDatabae
+    print(error_str)
 

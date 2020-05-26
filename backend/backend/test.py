@@ -43,7 +43,7 @@ def testAddTweet(database, content, docID):
     print(r.json())
 
 def testFetchText(database):
-    url = 'http://172.26.131.203:8000/cluster/text/' + database
+    url = 'http://172.26.131.203:8000/analysis/text/' + database
     r = requests.get(url,  headers=headers)
     data = r.json()
     print(len(data['lockdown_ade']))
@@ -52,13 +52,13 @@ def testFetchText(database):
 def testCreateDatabase(database):
     url = 'http://172.26.131.203:8000/spider'
     payload = {'dbName': database}
-    r = requests.get(url, headers=headers)
+    r = requests.post(url, payload=json.dumps(payload), headers=headers)
     print(r.json())
 
 
 
 def testUpdate():
-    url = 'http://172.26.131.203:8000/cluster/update'
+    url = 'http://172.26.131.203:8000/analysis/result'
     payload = {'database': 'test', 'docID': '5ae49d113d4ac0799ae6dfa1b80074cd', 'content': {'content': 'This is the newest test'}}
     r = requests.post(url, data=json.dumps(payload), headers=headers)
     data = r.json()
