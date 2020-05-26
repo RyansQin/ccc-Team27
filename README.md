@@ -19,6 +19,11 @@
 ### In this project, vuejs is chose to be the front end of our application. Vue is a single page application that enables partial refresh of the page without requesting all data and dom every time you jump to the page, which greatly improve the access speed and the user experience. Different components represents differenty functionality, which makes the developer design more easily. And its third-party ui library, like bootstrap, font-awesome-icon, etc., saves a lot of development time. As for the data, central storage is used to manage the global data of different part.
 
 ## Backend
+### In this project, two backend servers are used to provide service for the client and other modules. 
+    1. use Flask.
+    2. The web service is provided by ReST API.
+    3. Provode CouchDB interface
+    4. Load balancing to the CouchDB cluster
 
 ## Twitter harvester
 ### In this project, the Standard Search API provided by Twitter Developer Account is used to collect tweets data. We have collected two kinds of tweets text; each kind is classified by the state. The first kind is the exact tweet from a certain state while the other kind is any tweets that contain the keywords like ‘lockdown’, ‘stay home’, etc. In order to get the exact tweet from a certain state, we set the ‘geocode’ parameter in search API to specify the latitude and longitude of the most populated city in that state. There are two crawler programs that can automatically collect Twitter data without any omissions and duplications once opened.
