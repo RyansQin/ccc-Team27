@@ -2,7 +2,10 @@
 
 @Author: XinKai Luo
 
-This file is for harvesting tweets for the capital city of states in Australia.
+This file is for harvesting tweets for the capital city of states in Australia. In our project, we
+run the crawler to get data from April 21 to May 20. After that, we run the application in our server to show the crawler
+application can work. The new data will not be store in the CouchDB. If you want to store them into CouchDB, just cancel
+the comment on the line 111.
 '''
 
 
@@ -101,7 +104,12 @@ for j in range(8):
 
                     last_hash = hash(tweet._json['text'])
                     n += 1
-                    addTweet(locList[j], tweets)
+
+                    '''
+                    This line is to store the data to CouchDB
+                    If you want to keep fetching data, cancel the comment
+                    '''
+                    # addTweet(locList[j], tweets)
             batch += 1
             print('        ',batch,'  ',n,'  ', last_id,'  ', last_time)
         except Exception as e:

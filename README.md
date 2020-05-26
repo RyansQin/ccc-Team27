@@ -27,6 +27,10 @@
 
 ## Twitter harvester
 ### In this project, the Standard Search API provided by Twitter Developer Account is used to collect tweets data. We have collected two kinds of tweets text; each kind is classified by the state. The first kind is the exact tweet from a certain state while the other kind is any tweets that contain the keywords like ‘lockdown’, ‘stay home’, etc. In order to get the exact tweet from a certain state, we set the ‘geocode’ parameter in search API to specify the latitude and longitude of the most populated city in that state. There are two crawler programs that can automatically collect Twitter data without any omissions and duplications once opened.
+### In our project, we run the crawler to get data from April 21 to May 20. After that, we run the application in our server to show the crawler application can work. The new data will not be store in the CouchDB. If you want to store them into CouchDB, go to the lockdownCrawler.py and twitterCrawler.py and follow the guide
+
+## MapReduce function
+### Defined in CouchDB, get the degree of attention on COVID-19 of people in different state
 
 ## NLP
 
