@@ -12,6 +12,7 @@ import couchdbBalancer as ba
 import couchDbHandler as ha
 import json
 
+
 app = Flask(__name__)
 servers = ['172.26.130.16', '172.26.131.203', '172.26.128.171']
 admin = 'admin'
@@ -126,26 +127,33 @@ def createDB():
 #- - - - - - - - - - - - - - - API for Twitter analysis- - - - - - -  -  -  - - - - - - - - - - - - - - - - - - - - - - - - -- - -
 
 # Return the total number of documents for the given database
-def getTotalRows(database):
-    rows = database.view('_all_docs')
-    sum = 0
-    for item in rows:
-        sum += 1
-    return sum
+def getTotalRows(db, server):
+    database = server.getDatabase(db)
+    print(db)
+
+    v = database.view('covid/total_tweets', group=True)
+    res = 0
+    for item in v:
+        res += item.value
+    return res
+
+
+
 
 # Calculate the proportion of tweets that related to covid19 in specific location
 def calCovidRate(server, location):
     dbName = 'tweet_' + location
-    print(dbName)
     database = server.getDatabase(dbName)
-    view = database.view('covid/covid')
+    view = database.view('covid/covid', group=True)
     rate = {}
     res = 0
     for item in view:
         res += item.value
-    totalNumber = getTotalRows(database)
+
+    totalNumber = getTotalRows(dbName, server)
     rate['total'] = totalNumber
     rate['covid'] = res
+
     return rate
 
 # # For the given location, return the most popular activities during lockdown
